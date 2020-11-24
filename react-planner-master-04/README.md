@@ -100,7 +100,7 @@ Your contributions (issues and pull request) are very appreciated!
  - [JaccoGoris](https://github.com/JaccoGoris)
 ## students
  - [hohaidang](https://github.com/hohaidangpro)
-
+ - [dominhquang](https://github.com/QuangDo2311)
 ## License
 
 MIT
