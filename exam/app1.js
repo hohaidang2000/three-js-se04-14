@@ -75,6 +75,7 @@ function init() {
         
         
         mixer = new THREE.AnimationMixer( cat.scene );
+        mixer.timeScale = 0.05;
         animationClip = cat.animations[0];
         clipAction = mixer.clipAction( animationClip ).play();    
         animationClip = clipAction.getClip();
@@ -217,10 +218,10 @@ function init() {
             }
           });
           actionFolder.add(clipAction, "time", 0, animationClip.duration, 0.001).listen()
-          actionFolder.add(clipAction, "timeScale", 0, 0.1, 0.001).listen()
-          actionFolder.add(clipAction, "weight", 0, 1, 0.01).listen()
+          actionFolder.add(clipAction, "timeScale", 0, 2, 0.01).listen()
+          actionFolder.add(clipAction, "weight", 0, 2, 0.01).listen()
           actionFolder.add(actionControls, "effectiveWeight", 0, 1, 0.01).listen()
-          actionFolder.add(actionControls, "effectiveTimeScale", 0, 5, 0.01).listen()
+          actionFolder.add(actionControls, "effectiveTimeScale", 0, 2, 0.01).listen()
           actionFolder.add(clipAction, "zeroSlopeAtEnd").listen()
           actionFolder.add(clipAction, "zeroSlopeAtStart").listen()
           actionFolder.add(clipAction, "stop")
