@@ -117,6 +117,37 @@ function init() {
         
         console.log(selected)
     }
+    function onDocumentKeyDown( event ) {
+        var keyCode = event.which;
+        // up
+        if (keyCode == 69) {
+            
+            
+        mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+        mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+        
+        raycaster.setFromCamera( mouse, camera );
+        const intersects = raycaster.intersectObjects( [
+            head ,         
+            neck ,         
+            upperbody ,    
+            stomach  ,     
+            arm_left_up   ,
+            arm_left_down ,
+            arm_right_up  ,
+            arm_right_down,
+            leg_left_up   ,
+            leg_left_down ,
+            leg_right_up  ,
+            leg_right_down] );
+        if (selected) selected.material.transparent = false;
+        selected = INTERSECTED  
+        Man.selected = selected
+        Man.name = selected.name
+        controls.new()
+       console.log(Man.selected)
+        }
+    }
 
     function createMan(){
     for(var i=0; i<=11; i++){
@@ -149,6 +180,22 @@ function init() {
     leg_right_up    = scene.getObjectByName(1)
     leg_right_down  = scene.getObjectByName(0)
 
+    head          .name = "head          "
+    neck          .name = "neck          "
+    upperbody     .name = "upperbody     "
+    stomach       .name = "stomach       "
+    arm_left_up   .name = "arm_left_up   "
+    arm_left_down .name = "arm_left_down "
+    arm_right_up  .name = "arm_right_up  "
+    arm_right_down.name = "arm_right_down"
+    leg_left_up   .name = "leg_left_up   "
+    leg_left_down .name = "leg_left_down "
+    leg_right_up  .name = "leg_right_up  "
+    leg_right_down.name = "leg_right_down"
+
+
+    Man.selected = head
+    Man.name = head.name
     x = 0.9
     y = x - 0.5
     head.scale.set(x,x,x)
@@ -201,8 +248,9 @@ function init() {
     Man.position.y -= 0.5
     
     
-    
+   
     var controls = new function () {
+        
         this.totalwireframe = function(){
             
             for (i of Man.children){
@@ -226,6 +274,25 @@ function init() {
             Man.rotation.z = 0
             this.nowireframe()
         }
+        this.r_X = 0
+        this.r_Y = 0
+        this.r_Z = 0
+        this.check = 1
+        this.p_X = Man.selected.position.x
+        this.p_Y = Man.selected.position.y
+        this.p_Z = Man.selected.position.z
+        this.wireframe = false
+        this.new = function(){
+            this.r_X =  Man.selected.rotation.x
+            this.r_Y =  Man.selected.rotation.y
+            this.r_Z =  Man.selected.rotation.z
+
+            this.p_X =  Man.selected.position.x
+            this.p_Y =  Man.selected.position.y
+            this.p_Z =  Man.selected.position.z
+
+            this.wireframe = Man.selected.material.wireframe
+        }
         
     }
     var clock = new THREE.Clock();
@@ -233,7 +300,8 @@ function init() {
     document.getElementById("webgl-output").appendChild(renderer.domElement);
     window.addEventListener( 'resize', onWindowResize, false );
     document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-    document.addEventListener('pointerdown', onDocumentMouseDown, false );
+    //document.addEventListener('pointerdown', onDocumentMouseDown, false );
+    document.addEventListener('keydown', onDocumentKeyDown, false );
 
     const gui = new dat.GUI()
     const rotateFolder = gui.addFolder("rotate")
@@ -243,13 +311,22 @@ function init() {
 
     const positionFolder = gui.addFolder("position")
     positionFolder.add(Man.position, "x", -30 , 30 , 0.001).listen();
-    positionFolder.add(Man.position, "y", -20 , 20 , 0.001).listen();
-    positionFolder.add(Man.position, "z", -20 , 20 , 0.001).listen();
-    
-
+    positionFolder.add(Man.position, "y", -30 , 30 , 0.001).listen();
+    positionFolder.add(Man.position, "z", -30 , 30 , 0.001).listen();
+  
     gui.add(controls,"totalwireframe").listen();
     gui.add(controls,"reset").listen();
-    
+
+    const selectedFolder = gui.addFolder("selected")
+    selectedFolder.add(controls,"r_X",-Math.PI , Math.PI , 0.001).listen()
+    selectedFolder.add(controls,"r_Y",-Math.PI , Math.PI , 0.001).listen()
+    selectedFolder.add(controls,"r_Z",-Math.PI , Math.PI , 0.001).listen()
+
+    selectedFolder.add(controls,"p_X",-30,  30 , 0.001).listen()
+    selectedFolder.add(controls,"p_Y",-30,  30 , 0.001).listen()
+    selectedFolder.add(controls,"p_Z",-30,  30 , 0.001).listen() 
+    selectedFolder.add(controls,"wireframe").listen() 
+    gui.add(Man,"name").listen();
 
 
     var pre;    
@@ -259,10 +336,24 @@ function init() {
         orbitControls.update();
         camera.updateMatrixWorld();
         if (selected){
-           
-            selected.material.transparent = true
-            selected.material.opacity = 0.3;
+            
+            Man.selected.material.transparent = true
+            Man.selected.material.opacity = 0.3;
+            Man.selected.rotation.x = controls.r_X
+            Man.selected.rotation.y = controls.r_Y
+            Man.selected.rotation.z = controls.r_Z
+            
+            Man.selected.position.x = controls.p_X
+            Man.selected.position.y = controls.p_Y
+            Man.selected.position.z = controls.p_Z
+            if (controls.wireframe){
+                Man.selected.material.wireframe = true
+            }
+            else{
+                Man.selected.material.wireframe = false
+            }
         }
+
 
        
         requestAnimationFrame(renderScene);
