@@ -18,7 +18,7 @@ function init() {
     camera.lookAt(scene.position);
 
     var axes = new THREE.AxisHelper(200);
-    scene.add(axes);
+    //scene.add(axes);
       // create the ground plane
     var planeGeometry = new THREE.PlaneGeometry(60, 40, 1, 1);
     var planeMaterial = new THREE.MeshLambertMaterial({
@@ -53,7 +53,7 @@ function init() {
     var clipAction
     var animationClip
     
-    var controls
+    
     
     
    
@@ -63,8 +63,8 @@ function init() {
     x = 0.4
     var mesh = ok('./model/cat/cat_red.glb')
     mesh.then(gltf =>{
-
-        var orginal_mar = gltf.scene.children[0].children[4].material
+        
+        //var orginal_mar = gltf.scene.children[0].children[4].material
         
         var cat_scene = gltf.scene
         var cat = gltf
@@ -111,6 +111,9 @@ function init() {
         
         controls2 = addClipActionFolder("ClipAction 1", gui, clipAction, animationClip);
 
+       
+
+        
         renderScene();
         function renderScene() {
             var delta = clock.getDelta();
@@ -146,7 +149,7 @@ function init() {
                 }
                 
                 
-
+                
             });
             
             requestAnimationFrame(renderScene);
@@ -156,7 +159,7 @@ function init() {
     })
     
     
-    
+
 
     function ok(url){
         function load(url) {
