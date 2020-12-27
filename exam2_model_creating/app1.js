@@ -254,7 +254,9 @@ function init() {
     leg_right_down.position.y = leg_right_up.position.y -5
     }
     createMan();
-    
+    selected = head
+    Man.selected = head
+    Man.name = head.name
     console.log(Man);
     Man.position.y -= 0.5
     var text = ["brick-wall.jpg","floor-wood.jpg"]
@@ -277,13 +279,72 @@ function init() {
             }
         }
         this.reset = function(){
+            Man.selected.material.transparent = false
+            for (i of Man.children){
+                i.rotation.x = 0
+                i.rotation.y = 0
+                i.rotation.z = 0
+                i.position.y = 0
+                i.position.x = 0
+                i.position.z = 0
+            }
+            head.position.y =23
+           
+            neck.position.y = head.position.y - 2.5
+            
+            upperbody.position.y = neck.position.y-2.5
+                    
+            stomach.position.y = upperbody.position.y-2.5
+          
+                    
+            arm_left_up.position.z = upperbody.position.z - 5
+            
+            arm_left_up.position.y = upperbody.position.y - 1.5
+            
+            arm_left_down.position.z = arm_left_up.position.z
+            arm_left_down.position.y = arm_left_up.position.y -5
+            arm_right_up.position.z = upperbody.position.z + 5
+            
+            arm_right_up.position.y = upperbody.position.y - 1.5
+            
+            arm_right_down.position.z = arm_right_up.position.z
+            arm_right_down.position.y = arm_right_up.position.y -5
+            //
+            leg_left_up.position.z = upperbody.position.z - 2
+            
+            leg_left_up.position.y = upperbody.position.y - 9.5
+            
+            leg_left_down.position.z = leg_left_up.position.z
+            leg_left_down.position.y = leg_left_up.position.y -5
+            leg_right_up.position.z = upperbody.position.z + 2
+            
+            leg_right_up.position.y = upperbody.position.y - 9.5
+            
+            leg_right_down.position.z = leg_right_up.position.z
+            leg_right_down.position.y = leg_right_up.position.y -5
+
+            selected = head
+            Man.selected = head
+            Man.name = head.name
+            
             Man.position.x = 0
             Man.position.y = -0.5
             Man.position.z = 0
             Man.rotation.x = 0
             Man.rotation.y = 0
             Man.rotation.z = 0
-            this.nowireframe()
+
+            this.r_X = 0
+            this.r_Y = 0
+            this.r_Z = 0
+
+            this.p_X = 0
+            this.p_Y = 0
+            this.p_Z = 0
+            this.rp_X = Man.selected.position.x
+            this.rp_Y = Man.selected.position.y
+            this.rp_Z = Man.selected.position.z
+            
         }
         this.r_X = 0
         this.r_Y = 0
