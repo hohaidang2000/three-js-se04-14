@@ -237,18 +237,18 @@ function init() {
 
     const gui = new dat.GUI()
     const rotateFolder = gui.addFolder("rotate")
-    rotateFolder.add(Man.rotation, "x", -Math.PI , Math.PI , 0.001)
-    rotateFolder.add(Man.rotation, "y", -Math.PI , Math.PI , 0.001)
-    rotateFolder.add(Man.rotation, "z", -Math.PI , Math.PI , 0.001)
+    rotateFolder.add(Man.rotation, "x", -Math.PI , Math.PI , 0.001).listen();
+    rotateFolder.add(Man.rotation, "y", -Math.PI , Math.PI , 0.001).listen();
+    rotateFolder.add(Man.rotation, "z", -Math.PI , Math.PI , 0.001).listen();
 
     const positionFolder = gui.addFolder("position")
-    positionFolder.add(Man.position, "x", -30 , 30 , 0.001)
-    positionFolder.add(Man.position, "y", -20 , 20 , 0.001)
-    positionFolder.add(Man.position, "z", -20 , 20 , 0.001)
+    positionFolder.add(Man.position, "x", -30 , 30 , 0.001).listen();
+    positionFolder.add(Man.position, "y", -20 , 20 , 0.001).listen();
+    positionFolder.add(Man.position, "z", -20 , 20 , 0.001).listen();
     
 
-    gui.add(controls,"totalwireframe")
-    gui.add(controls,"reset")
+    gui.add(controls,"totalwireframe").listen();
+    gui.add(controls,"reset").listen();
     
 
 
