@@ -199,18 +199,59 @@ function init() {
     
     console.log(Man);
     Man.position.y -= 0.5
-    Man.rotation.y += 10
     
     
-
+    
+    var controls = new function () {
+        this.totalwireframe = function(){
+            
+            for (i of Man.children){
+                if (i.material.wireframe){
+                    i.material.wireframe = false    
+                }
+                else i.material.wireframe = true
+            }    
+        }
+        this.nowireframe = function(){
+            for (i of Man.children){
+                i.material.wireframe = false   
+            }
+        }
+        this.reset = function(){
+            Man.position.x = 0
+            Man.position.y = 0
+            Man.position.z = 0
+            Man.rotation.x = 0
+            Man.rotation.y = 0
+            Man.rotation.z = 0
+            this.nowireframe()
+        }
+        
+    }
     var clock = new THREE.Clock();
     var orbitControls = new THREE.OrbitControls(camera,renderer.domElement);
     document.getElementById("webgl-output").appendChild(renderer.domElement);
     window.addEventListener( 'resize', onWindowResize, false );
     document.addEventListener( 'mousemove', onDocumentMouseMove, false );
     document.addEventListener('pointerdown', onDocumentMouseDown, false );
+
+    const gui = new dat.GUI()
+    const rotateFolder = gui.addFolder("rotate")
+    rotateFolder.add(Man.rotation, "x", -Math.PI , Math.PI , 0.001).listen();
+    rotateFolder.add(Man.rotation, "y", -Math.PI , Math.PI , 0.001).listen();
+    rotateFolder.add(Man.rotation, "z", -Math.PI , Math.PI , 0.001).listen();
+
+    const positionFolder = gui.addFolder("position")
+    positionFolder.add(Man.position, "x", -30 , 30 , 0.001).listen();
+    positionFolder.add(Man.position, "y", -20 , 20 , 0.001).listen();
+    positionFolder.add(Man.position, "z", -20 , 20 , 0.001).listen();
     
+
+    gui.add(controls,"totalwireframe").listen();
+    gui.add(controls,"reset").listen();
     
+
+
     var pre;    
     renderScene();
     function renderScene() {    
@@ -227,6 +268,89 @@ function init() {
         requestAnimationFrame(renderScene);
         
         renderer.render(scene, camera);
+    }
+    function addGeometry(scene, geom, name, texture, gui, controls) {
+        var mat = new THREE.MeshStandardMaterial(
+          {
+            map: texture,
+            metalness: 0.2,
+            roughness: 0.07
+        });
+        var mesh = new THREE.Mesh(geom, mat);
+        mesh.castShadow = true;
+        
+        scene.add(mesh);
+        addBasicMaterialSettings(gui, controls, mat, name + '-THREE.Material');
+        addSpecificMaterialSettings(gui, controls, mat, name + '-THREE.MeshStandardMaterial');
+      
+        return mesh;
+      };
+    function addBasicMaterialSettings(gui, controls, material, name) {
+
+        var folderName = (name !== undefined) ? name : 'THREE.Material';
+    
+        controls.material = material;
+    
+        var folder = gui.addFolder(folderName);
+        folder.add(controls.material, 'id');
+        folder.add(controls.material, 'uuid');
+        folder.add(controls.material, 'name');
+        folder.add(controls.material, 'opacity', 0, 1, 0.01);
+        folder.add(controls.material, 'transparent');
+        folder.add(controls.material, 'overdraw', 0, 1, 0.01);
+        folder.add(controls.material, 'visible');
+        folder.add(controls.material, 'side', {FrontSide: 0, BackSide: 1, BothSides: 2}).onChange(function (side) {
+            controls.material.side = parseInt(side)
+        });
+    
+        folder.add(controls.material, 'colorWrite');
+        folder.add(controls.material, 'flatShading').onChange(function(shading) {
+            controls.material.flatShading = shading;
+            controls.material.needsUpdate = true;
+        });
+        folder.add(controls.material, 'premultipliedAlpha');
+        folder.add(controls.material, 'dithering');
+        folder.add(controls.material, 'shadowSide', {FrontSide: 0, BackSide: 1, BothSides: 2});
+        folder.add(controls.material, 'vertexColors', {NoColors: THREE.NoColors, FaceColors: THREE.FaceColors, VertexColors: THREE.VertexColors}).onChange(function (vertexColors) {
+            material.vertexColors = parseInt(vertexColors);
+        });
+        folder.add(controls.material, 'fog');
+    
+        return folder;
+    }
+    function addSpecificMaterialSettings(gui, controls, material, name) {
+        controls.material = material;
+        
+        var folderName = (name !== undefined) ? name : 'THREE.' + material.type;
+        var folder = gui.addFolder(folderName);
+        switch (material.type) {
+            case "MeshNormalMaterial":
+                folder.add(controls.material,'wireframe');
+                return folder;
+    
+            case "MeshPhongMaterial":
+                controls.specular = material.specular.getStyle();
+                folder.addColor(controls, 'specular').onChange(function (e) {
+                    material.specular.setStyle(e)
+                });
+                folder.add(material, 'shininess', 0, 100, 0.01);
+                return folder;            
+                
+            case "MeshStandardMaterial":
+                controls.color = material.color.getStyle();
+                folder.addColor(controls, 'color').onChange(function (e) {
+                    material.color.setStyle(e)
+                });
+                controls.emissive = material.emissive.getStyle();
+                folder.addColor(controls, 'emissive').onChange(function (e) {
+                    material.emissive.setStyle(e)                
+                });
+                folder.add(material, 'metalness', 0, 1, 0.01);
+                folder.add(material, 'roughness', 0, 1, 0.01);
+                folder.add(material, 'wireframe');
+    
+                return folder;
+        }
     }    
         
     function onWindowResize() {
