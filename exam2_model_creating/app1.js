@@ -62,14 +62,60 @@ function init() {
     const mouse = new THREE.Vector2();
     const radius = 100;
     raycaster = new THREE.Raycaster();
-
+    var selected
     function onDocumentMouseMove( event ) {
-
-        
-
         mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
         mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-
+        raycaster.setFromCamera( mouse, camera );
+        const intersects = raycaster.intersectObjects( [
+            head ,         
+            neck ,         
+            upperbody ,    
+            stomach  ,     
+            arm_left_up   ,
+            arm_left_down ,
+            arm_right_up  ,
+            arm_right_down,
+            leg_left_up   ,
+            leg_left_down ,
+            leg_right_up  ,
+            leg_right_down] );
+        if ( intersects.length > 0 ) {      
+            if ( INTERSECTED != intersects[ 0 ].object ) {
+                if ( INTERSECTED ) INTERSECTED.material.transparent = false;  
+        		INTERSECTED = intersects[ 0 ].object;
+        		INTERSECTED.material.transparent = true;     
+                INTERSECTED.material.opacity = 0.3;
+            }
+        }
+        else{
+            if(INTERSECTED) INTERSECTED.material.transparent = false;     
+            INTERSECTED = null;
+   
+        }
+    }
+    function onDocumentMouseDown( event ) {
+       
+        mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+        mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+        raycaster.setFromCamera( mouse, camera );
+        const intersects = raycaster.intersectObjects( [
+            head ,         
+            neck ,         
+            upperbody ,    
+            stomach  ,     
+            arm_left_up   ,
+            arm_left_down ,
+            arm_right_up  ,
+            arm_right_down,
+            leg_left_up   ,
+            leg_left_down ,
+            leg_right_up  ,
+            leg_right_down] );
+        if (selected) selected.material.transparent = false;
+        selected = INTERSECTED  
+        
+        console.log(selected)
     }
 
     function createMan(){
@@ -162,47 +208,22 @@ function init() {
     document.getElementById("webgl-output").appendChild(renderer.domElement);
     window.addEventListener( 'resize', onWindowResize, false );
     document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-
+    document.addEventListener('pointerdown', onDocumentMouseDown, false );
     
-
-        
+    
+    var pre;    
     renderScene();
     function renderScene() {    
         stats.update();
         orbitControls.update();
         camera.updateMatrixWorld();
-        
+        if (selected){
+           
+            selected.material.transparent = true
+            selected.material.opacity = 0.3;
+        }
+
        
-        raycaster.setFromCamera( mouse, camera );
-        const intersects = raycaster.intersectObjects( [
-            head ,         
-            neck ,         
-            upperbody ,    
-            stomach  ,     
-            arm_left_up   ,
-            arm_left_down ,
-            arm_right_up  ,
-            arm_right_down,
-            leg_left_up   ,
-            leg_left_down ,
-            leg_right_up  ,
-            leg_right_down] );
-        if ( intersects.length > 0 ) {      
-            if ( INTERSECTED != intersects[ 0 ].object ) {
-                if ( INTERSECTED ) INTERSECTED.material.transparent = false;  
-        		INTERSECTED = intersects[ 0 ].object;
-        		INTERSECTED.material.transparent = true;     
-                INTERSECTED.material.opacity = 0.3;
-            }
-        }
-        else{
-            if(INTERSECTED) INTERSECTED.material.transparent = false;     
-            INTERSECTED = null;
-        //    for (var i = 0;i<=11;i++){
-        //        Man.children[i].material.transparent = false
-        //    }
-        }
-        
         requestAnimationFrame(renderScene);
         
         renderer.render(scene, camera);
