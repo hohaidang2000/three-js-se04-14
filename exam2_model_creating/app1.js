@@ -52,6 +52,26 @@ function init() {
     var plane = new THREE.Mesh(planeGeometry, planeMaterial);
     plane.receiveShadow = true;
     var Man = new THREE.Object3D();
+    var head , neck ,upperbody ,stomach ,arm_left_up, arm_left_down , 
+        arm_right_up ,arm_right_down,leg_left_up,leg_left_down ,
+        leg_right_up, leg_right_down
+    
+    let INTERSECTED;
+    let theta = 0;
+
+    const mouse = new THREE.Vector2();
+    const radius = 100;
+    raycaster = new THREE.Raycaster();
+
+    function onDocumentMouseMove( event ) {
+
+        
+
+        mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+        mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+    }
+
     function createMan(){
     for(var i=0; i<=11; i++){
         var cubeGeometry = new THREE.CubeGeometry(4,4,4);
@@ -62,27 +82,27 @@ function init() {
         cube.position.y += i +2
         cube.castShadow = true
         cube.receiveShadow = true
-        
+       
         Man.add(cube)
         
     } 
     scene.add(Man)
-    var head = scene.getObjectByName(11)
-    var neck = scene.getObjectByName(10)
+    head            = scene.getObjectByName(11)
+    neck            = scene.getObjectByName(10)
 
-    var upperbody = scene.getObjectByName(9)
-    var stomach = scene.getObjectByName(8)
+    upperbody       = scene.getObjectByName(9)
+    stomach         = scene.getObjectByName(8)
 
-    var arm_left_up = scene.getObjectByName(7)
-    var arm_left_down = scene.getObjectByName(6)
-    var arm_right_up = scene.getObjectByName(5)
-    var arm_right_down = scene.getObjectByName(4)
-    
-    var leg_left_up = scene.getObjectByName(3)
-    var leg_left_down = scene.getObjectByName(2)
-    var leg_right_up = scene.getObjectByName(1)
-    var leg_right_down = scene.getObjectByName(0)
-    
+    arm_left_up     = scene.getObjectByName(7)
+    arm_left_down   = scene.getObjectByName(6)
+    arm_right_up    = scene.getObjectByName(5)
+    arm_right_down  = scene.getObjectByName(4)
+
+    leg_left_up     = scene.getObjectByName(3)
+    leg_left_down   = scene.getObjectByName(2)
+    leg_right_up    = scene.getObjectByName(1)
+    leg_right_down  = scene.getObjectByName(0)
+
     x = 0.9
     y = x - 0.5
     head.scale.set(x,x,x)
@@ -130,6 +150,7 @@ function init() {
     leg_right_down.position.y = leg_right_up.position.y -5
     }
     createMan();
+    
     console.log(Man);
     Man.position.y -= 0.5
     Man.rotation.y += 10
@@ -139,20 +160,62 @@ function init() {
     var clock = new THREE.Clock();
     var orbitControls = new THREE.OrbitControls(camera,renderer.domElement);
     document.getElementById("webgl-output").appendChild(renderer.domElement);
-     
+    window.addEventListener( 'resize', onWindowResize, false );
+    document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
-       
+    
 
         
     renderScene();
     function renderScene() {    
         stats.update();
         orbitControls.update();
+        camera.updateMatrixWorld();
+        
+       
+        raycaster.setFromCamera( mouse, camera );
+        const intersects = raycaster.intersectObjects( [
+            head ,         
+            neck ,         
+            upperbody ,    
+            stomach  ,     
+            arm_left_up   ,
+            arm_left_down ,
+            arm_right_up  ,
+            arm_right_down,
+            leg_left_up   ,
+            leg_left_down ,
+            leg_right_up  ,
+            leg_right_down] );
+        if ( intersects.length > 0 ) {      
+            if ( INTERSECTED != intersects[ 0 ].object ) {
+                if ( INTERSECTED ) INTERSECTED.material.transparent = false;  
+        		INTERSECTED = intersects[ 0 ].object;
+        		INTERSECTED.material.transparent = true;     
+                INTERSECTED.material.opacity = 0.3;
+            }
+        }
+        else{
+            if(INTERSECTED) INTERSECTED.material.transparent = false;     
+            INTERSECTED = null;
+        //    for (var i = 0;i<=11;i++){
+        //        Man.children[i].material.transparent = false
+        //    }
+        }
+        
         requestAnimationFrame(renderScene);
+        
         renderer.render(scene, camera);
     }    
         
-    
+    function onWindowResize() {
+
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize( window.innerWidth, window.innerHeight );
+
+    }
     
     
 
