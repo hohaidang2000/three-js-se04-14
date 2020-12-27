@@ -204,6 +204,7 @@ function init() {
     
     var controls = new function () {
         this.totalwireframe = function(){
+            
             for (i of Man.children){
                 if (i.material.wireframe){
                     i.material.wireframe = false    
@@ -211,6 +212,21 @@ function init() {
                 else i.material.wireframe = true
             }    
         }
+        this.nowireframe = function(){
+            for (i of Man.children){
+                i.material.wireframe = false   
+            }
+        }
+        this.reset = function(){
+            Man.position.x = 0
+            Man.position.y = 0
+            Man.position.z = 0
+            Man.rotation.x = 0
+            Man.rotation.y = 0
+            Man.rotation.z = 0
+            this.nowireframe()
+        }
+        
     }
     var clock = new THREE.Clock();
     var orbitControls = new THREE.OrbitControls(camera,renderer.domElement);
@@ -218,12 +234,21 @@ function init() {
     window.addEventListener( 'resize', onWindowResize, false );
     document.addEventListener( 'mousemove', onDocumentMouseMove, false );
     document.addEventListener('pointerdown', onDocumentMouseDown, false );
+
     const gui = new dat.GUI()
-    const cubeFolder = gui.addFolder("rotate")
-    cubeFolder.add(Man.rotation, "x", -Math.PI , Math.PI , 0.001)
-    cubeFolder.add(Man.rotation, "y", -Math.PI , Math.PI , 0.001)
-    cubeFolder.add(Man.rotation, "z", -Math.PI , Math.PI , 0.001)
-    gui .add(controls,"totalwireframe")
+    const rotateFolder = gui.addFolder("rotate")
+    rotateFolder.add(Man.rotation, "x", -Math.PI , Math.PI , 0.001)
+    rotateFolder.add(Man.rotation, "y", -Math.PI , Math.PI , 0.001)
+    rotateFolder.add(Man.rotation, "z", -Math.PI , Math.PI , 0.001)
+
+    const positionFolder = gui.addFolder("position")
+    positionFolder.add(Man.position, "x", -30 , 30 , 0.001)
+    positionFolder.add(Man.position, "y", -20 , 20 , 0.001)
+    positionFolder.add(Man.position, "z", -20 , 20 , 0.001)
+    
+
+    gui.add(controls,"totalwireframe")
+    gui.add(controls,"reset")
     
 
 
