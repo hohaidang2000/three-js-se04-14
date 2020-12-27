@@ -2,6 +2,7 @@
 function init() {
     var stats = initStats();
 
+    var textureLoader = new THREE.TextureLoader();
     // default setup
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -148,21 +149,31 @@ function init() {
        console.log(Man.selected)
         }
     }
-
+    
     function createMan(){
+        var texture = textureLoader.load('general/brick-wall.jpg')
     for(var i=0; i<=11; i++){
-        var cubeGeometry = new THREE.CubeGeometry(4,4,4);
-        var cubeMaterial = new THREE.MeshPhongMaterial(
-        {color: 0xff0000, wireframe: false});
+        var cubeGeometry = new THREE.BoxGeometry(4,4,4);
+
+        var cubeMaterial =  new THREE.MeshStandardMaterial(
+            {
+              map: texture,
+              metalness: 0.2,
+              roughness: 0.07
+          });
         var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
         cube.name = i    
         cube.position.y += i +2
         cube.castShadow = true
         cube.receiveShadow = true
-       
+        cube.px = 0
+        cube.py = 0
+        cube.pz = 0
+
         Man.add(cube)
         
     } 
+    Man.tex = 'brick-wall.jpg'
     scene.add(Man)
     head            = scene.getObjectByName(11)
     neck            = scene.getObjectByName(10)
@@ -246,8 +257,8 @@ function init() {
     
     console.log(Man);
     Man.position.y -= 0.5
-    
-    
+    var text = ["brick-wall.jpg","floor-wood.jpg"]
+    console.log(text)
    
     var controls = new function () {
         
@@ -267,7 +278,7 @@ function init() {
         }
         this.reset = function(){
             Man.position.x = 0
-            Man.position.y = 0
+            Man.position.y = -0.5
             Man.position.z = 0
             Man.rotation.x = 0
             Man.rotation.y = 0
@@ -277,22 +288,33 @@ function init() {
         this.r_X = 0
         this.r_Y = 0
         this.r_Z = 0
-        this.check = 1
-        this.p_X = Man.selected.position.x
-        this.p_Y = Man.selected.position.y
-        this.p_Z = Man.selected.position.z
+        
+        this.p_X = 0
+        this.p_Y = 0
+        this.p_Z = 0
+
+        this.rp_X = Man.selected.position.x
+        this.rp_Y = Man.selected.position.y
+        this.rp_Z = Man.selected.position.z
+
+        
         this.wireframe = false
         this.new = function(){
             this.r_X =  Man.selected.rotation.x
             this.r_Y =  Man.selected.rotation.y
             this.r_Z =  Man.selected.rotation.z
 
-            this.p_X =  Man.selected.position.x
-            this.p_Y =  Man.selected.position.y
-            this.p_Z =  Man.selected.position.z
+            this.rp_X = Man.selected.position.x
+            this.rp_Y = Man.selected.position.y
+            this.rp_Z = Man.selected.position.z
+
+            this.p_X =  Man.selected.px
+            this.p_Y =  Man.selected.py
+            this.p_Z =  Man.selected.pz
 
             this.wireframe = Man.selected.material.wireframe
         }
+        this.text = text
         
     }
     var clock = new THREE.Clock();
@@ -316,18 +338,33 @@ function init() {
   
     gui.add(controls,"totalwireframe").listen();
     gui.add(controls,"reset").listen();
+    //gui.add(text).listen();
 
     const selectedFolder = gui.addFolder("selected")
     selectedFolder.add(controls,"r_X",-Math.PI , Math.PI , 0.001).listen()
     selectedFolder.add(controls,"r_Y",-Math.PI , Math.PI , 0.001).listen()
     selectedFolder.add(controls,"r_Z",-Math.PI , Math.PI , 0.001).listen()
-
-    selectedFolder.add(controls,"p_X",-30,  30 , 0.001).listen()
-    selectedFolder.add(controls,"p_Y",-30,  30 , 0.001).listen()
-    selectedFolder.add(controls,"p_Z",-30,  30 , 0.001).listen() 
+    var dis = 15
+    selectedFolder.add(controls,"p_X",-dis,  dis , 0.001).listen().onChange(function(e) {
+        Man.selected.px = e
+        Man.selected.position.x = e + controls.rp_X
+      });
+    selectedFolder.add(controls,"p_Y",-dis,  dis , 0.001).listen().onChange(function(e) {
+        Man.selected.px = e
+        Man.selected.position.y = e + controls.rp_Y
+      });
+    selectedFolder.add(controls,"p_Z",-dis,  dis , 0.001).listen() .onChange(function(e) {
+        Man.selected.px = e
+        Man.selected.position.z = e + controls.rp_Z
+      });
     selectedFolder.add(controls,"wireframe").listen() 
     gui.add(Man,"name").listen();
 
+
+    
+    var cube = new THREE.BoxGeometry(10, 10, 10)
+    var cubeMesh = addGeometry(scene, cube, 'cube', textureLoader.load('general/brick-wall.jpg'), gui, controls);
+    cubeMesh.position.x = -20;
 
     var pre;    
     renderScene();
@@ -343,9 +380,9 @@ function init() {
             Man.selected.rotation.y = controls.r_Y
             Man.selected.rotation.z = controls.r_Z
             
-            Man.selected.position.x = controls.p_X
-            Man.selected.position.y = controls.p_Y
-            Man.selected.position.z = controls.p_Z
+           // Man.selected.position.x = controls.p_X
+           // Man.selected.position.y = controls.p_Y
+           // Man.selected.position.z = controls.p_Z
             if (controls.wireframe){
                 Man.selected.material.wireframe = true
             }
@@ -388,7 +425,7 @@ function init() {
         folder.add(controls.material, 'name');
         folder.add(controls.material, 'opacity', 0, 1, 0.01);
         folder.add(controls.material, 'transparent');
-        folder.add(controls.material, 'overdraw', 0, 1, 0.01);
+        //folder.add(controls.material, 'overdraw', 0, 1, 0.01);
         folder.add(controls.material, 'visible');
         folder.add(controls.material, 'side', {FrontSide: 0, BackSide: 1, BothSides: 2}).onChange(function (side) {
             controls.material.side = parseInt(side)
