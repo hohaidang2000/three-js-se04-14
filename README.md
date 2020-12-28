@@ -1,7 +1,9 @@
 # three-js-se04-14
 
 
-
+### students
+ - [hohaidang](https://github.com/hohaidangpro)
+ - [dominhquang](https://github.com/QuangDo2311)
 
 # How to use
 ### Exam2 model creating
