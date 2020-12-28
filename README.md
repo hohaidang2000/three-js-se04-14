@@ -1,8 +1,9 @@
 # three-js-se04-14
-
+### project's guilder
+ - [Bùi Sỹ Nguyên](https://www.facebook.com/groups/3090155857777168/user/614170901/)
 ### students
- - [hohaidang](https://github.com/hohaidangpro)
- - [dominhquang](https://github.com/QuangDo2311)
+ - [Hồ Hải Đăng](https://github.com/hohaidangpro)
+ - [Đỗ Minh Quang](https://github.com/QuangDo2311)
 
 # How to use
 ### Exam1 model loading
@@ -31,6 +32,7 @@
 - you can show individual wireframe or the whole mesh(but i leave it at if that material is already in wireframe mode, it will turn back to noraml, maybe i should add a tick box for it)
 - you can select individual texture (but if you want to select the same, you have to change it then reselect due to .onchange(), i will find a way to work around that soon)
 - you can reset the whole thing for the model to be in it orginal form
+- selected's material have extra options and color picker
 
 
 ### exam1 model loading test
