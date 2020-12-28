@@ -1,7 +1,7 @@
 var mesh
 function init() {
     var stats = initStats();
-
+    window.addEventListener( 'resize', onWindowResize, false );
     // default setup
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -99,10 +99,25 @@ function init() {
     
     // need the name correct
     gui.addColor(controls, 'color').onChange(e =>{
-        var catM = new THREE.MeshPhongMaterial({
+        var catM = new THREE.MeshStandardMaterial({
             color: e
         });
+        if(mesh.name == "cat") {
+            mesh.position.y = 0
+            mesh.scale.set(20,20,20);
+            mesh.children[0].children[4].material.color = catM.color
+           
+            mesh.children[0].children[4].material.skinning = true;
+        }
         
+        if(mesh.name == "parrot") {
+            mesh.position.y = 5
+            mesh.scale.set(10,10,10);
+            mesh.children[0].material.color = catM.color
+            mesh.children[0].material.skinning = true;
+        }
+        
+       //closed due to You may have to wait for your .js library to implement support.
     } );
     gui.add(controls, 'rotationSpeedX', -4, 4).listen().onChange(e =>{
         mesh.rotation.x = e; 
@@ -161,12 +176,16 @@ function init() {
         if(mesh.name == "cat") {
             mesh.position.y = 0
             mesh.scale.set(20,20,20);
+            mesh.children[0].children[4].castShadow = true
+            mesh.children[0].children[4].receiveShadow = true
         }
         if(mesh.name == "parrot") {
             mesh.position.y = 5
             mesh.scale.set(10,10,10);
+            mesh.children[0].castShadow = true
+            mesh.children[0].receiveShadow = true
         }
-       
+        
         controls2 = addClipActionFolder("ClipAction", gui, clipAction, animationClip);
         
         renderScene();
@@ -219,64 +238,69 @@ function init() {
     }
     
 }
-function addClipActionFolder(folderName, gui, clipAction, animationClip) {
-    var actionControls = {
-        keyframe: 0,
-        time: 0,
-        timeScale: 0,
-        repetitions: Infinity,
-        // warp
-        warpStartTimeScale: 1,
-        warpEndTimeScale: 1,
-        warpDurationInSeconds: 2,
-        warp: function() {clipAction.warp(actionControls.warpStartTimeScale, actionControls.warpEndTimeScale, actionControls.warpDurationInSeconds)},
-        fadeDurationInSeconds: 2,
-        fadeIn: function() {clipAction.fadeIn(actionControls.fadeDurationInSeconds)},
-        fadeOut: function() {clipAction.fadeOut(actionControls.fadeDurationInSeconds)},
-        effectiveWeight: 0,
-        effectiveTimeScale: 0
+    function addClipActionFolder(folderName, gui, clipAction, animationClip) {
+        var actionControls = {
+            keyframe: 0,
+            time: 0,
+            timeScale: 0,
+            repetitions: Infinity,
+            // warp
+            warpStartTimeScale: 1,
+            warpEndTimeScale: 1,
+            warpDurationInSeconds: 2,
+            warp: function() {clipAction.warp(actionControls.warpStartTimeScale, actionControls.warpEndTimeScale, actionControls.warpDurationInSeconds)},
+            fadeDurationInSeconds: 2,
+            fadeIn: function() {clipAction.fadeIn(actionControls.fadeDurationInSeconds)},
+            fadeOut: function() {clipAction.fadeOut(actionControls.fadeDurationInSeconds)},
+            effectiveWeight: 0,
+            effectiveTimeScale: 0
+          }
+      
+          var actionFolder = gui.addFolder(folderName)
+          actionFolder.add(clipAction, "clampWhenFinished").listen();
+          actionFolder.add(clipAction, "enabled").listen();
+          actionFolder.add(clipAction, "paused").listen();
+          actionFolder.add(clipAction, "loop", { LoopRepeat: THREE.LoopRepeat, LoopOnce: THREE.LoopOnce, LoopPingPong: THREE.LoopPingPong }).onChange(function(e) {
+            if (e == THREE.LoopOnce || e == THREE.LoopPingPong) {
+              clipAction.reset();
+              clipAction.repetitions = undefined
+              clipAction.setLoop(parseInt(e), undefined);
+            } else {
+              clipAction.setLoop(parseInt(e), actionControls.repetitions);
+            }
+          });
+          actionFolder.add(actionControls, "repetitions", 0, 100).listen().onChange(function(e) {
+            if (clipAction.loop == THREE.LoopOnce || clipAction.loop == THREE.LoopPingPong) {
+              clipAction.reset();
+              clipAction.repetitions = undefined
+              clipAction.setLoop(parseInt(clipAction.loop), undefined);
+            } else {
+              clipAction.setLoop(parseInt(e), actionControls.repetitions);
+            }
+          });
+          actionFolder.add(clipAction, "time", 0, animationClip.duration, 0.001).listen()
+          actionFolder.add(clipAction, "timeScale", 0, 2, 0.01).listen()
+          actionFolder.add(clipAction, "weight", 0, 2, 0.01).listen()
+          actionFolder.add(actionControls, "effectiveWeight", 0, 1, 0.01).listen()
+          actionFolder.add(actionControls, "effectiveTimeScale", 0, 2, 0.01).listen()
+          actionFolder.add(clipAction, "zeroSlopeAtEnd").listen()
+          actionFolder.add(clipAction, "zeroSlopeAtStart").listen()
+          actionFolder.add(clipAction, "stop")
+          actionFolder.add(clipAction, "play")
+          actionFolder.add(clipAction, "reset")
+          actionFolder.add(actionControls, "warpStartTimeScale", 0, 10, 0.01)
+          actionFolder.add(actionControls, "warpEndTimeScale", 0, 10, 0.01)
+          actionFolder.add(actionControls, "warpDurationInSeconds", 0, 10, 0.01)
+          actionFolder.add(actionControls, "warp")
+          actionFolder.add(actionControls, "fadeDurationInSeconds", 0, 10, 0.01)
+          actionFolder.add(actionControls, "fadeIn")
+          actionFolder.add(actionControls, "fadeOut")
+      
+          return actionControls;
       }
-  
-      var actionFolder = gui.addFolder(folderName)
-      actionFolder.add(clipAction, "clampWhenFinished").listen();
-      actionFolder.add(clipAction, "enabled").listen();
-      actionFolder.add(clipAction, "paused").listen();
-      actionFolder.add(clipAction, "loop", { LoopRepeat: THREE.LoopRepeat, LoopOnce: THREE.LoopOnce, LoopPingPong: THREE.LoopPingPong }).onChange(function(e) {
-        if (e == THREE.LoopOnce || e == THREE.LoopPingPong) {
-          clipAction.reset();
-          clipAction.repetitions = undefined
-          clipAction.setLoop(parseInt(e), undefined);
-        } else {
-          clipAction.setLoop(parseInt(e), actionControls.repetitions);
-        }
-      });
-      actionFolder.add(actionControls, "repetitions", 0, 100).listen().onChange(function(e) {
-        if (clipAction.loop == THREE.LoopOnce || clipAction.loop == THREE.LoopPingPong) {
-          clipAction.reset();
-          clipAction.repetitions = undefined
-          clipAction.setLoop(parseInt(clipAction.loop), undefined);
-        } else {
-          clipAction.setLoop(parseInt(e), actionControls.repetitions);
-        }
-      });
-      actionFolder.add(clipAction, "time", 0, animationClip.duration, 0.001).listen()
-      actionFolder.add(clipAction, "timeScale", 0, 2, 0.01).listen()
-      actionFolder.add(clipAction, "weight", 0, 2, 0.01).listen()
-      actionFolder.add(actionControls, "effectiveWeight", 0, 1, 0.01).listen()
-      actionFolder.add(actionControls, "effectiveTimeScale", 0, 2, 0.01).listen()
-      actionFolder.add(clipAction, "zeroSlopeAtEnd").listen()
-      actionFolder.add(clipAction, "zeroSlopeAtStart").listen()
-      actionFolder.add(clipAction, "stop")
-      actionFolder.add(clipAction, "play")
-      actionFolder.add(clipAction, "reset")
-      actionFolder.add(actionControls, "warpStartTimeScale", 0, 10, 0.01)
-      actionFolder.add(actionControls, "warpEndTimeScale", 0, 10, 0.01)
-      actionFolder.add(actionControls, "warpDurationInSeconds", 0, 10, 0.01)
-      actionFolder.add(actionControls, "warp")
-      actionFolder.add(actionControls, "fadeDurationInSeconds", 0, 10, 0.01)
-      actionFolder.add(actionControls, "fadeIn")
-      actionFolder.add(actionControls, "fadeOut")
-  
-      return actionControls;
-  }
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize( window.innerWidth, window.innerHeight );
+    }  
 }
