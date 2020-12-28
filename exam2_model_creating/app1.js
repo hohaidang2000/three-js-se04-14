@@ -1,20 +1,20 @@
 
 function init() {
     const gui = new dat.GUI()
-    var controls2 ={}
-    dat.GUI.prototype.removeFolder = function(name) {
+    var controls2 = {}
+    dat.GUI.prototype.removeFolder = function (name) {
         var folder = this.__folders[name];
         if (!folder) {
-          return;
+            return;
         }
         folder.close();
         this.__ul.removeChild(folder.domElement.parentNode);
         delete this.__folders[name];
         this.onResize();
-      }
+    }
 
     var stats = initStats();
-    
+
     var textureLoader = new THREE.TextureLoader();
     // default setup
     var scene = new THREE.Scene();
@@ -33,7 +33,7 @@ function init() {
 
     var axes = new THREE.AxisHelper(200);
     scene.add(axes);
-      // create the ground plane
+    // create the ground plane
     var planeGeometry = new THREE.PlaneGeometry(60, 40, 1, 1);
     var planeMaterial = new THREE.MeshLambertMaterial({
         color: 0xffffff
@@ -66,209 +66,209 @@ function init() {
     var plane = new THREE.Mesh(planeGeometry, planeMaterial);
     plane.receiveShadow = true;
     var Man = new THREE.Object3D();
-    var head , neck ,upperbody ,stomach ,arm_left_up, arm_left_down , 
-        arm_right_up ,arm_right_down,leg_left_up,leg_left_down ,
+    var head, neck, upperbody, stomach, arm_left_up, arm_left_down,
+        arm_right_up, arm_right_down, leg_left_up, leg_left_down,
         leg_right_up, leg_right_down
-    
+
     let INTERSECTED;
-    
+
 
     const mouse = new THREE.Vector2();
-    
+
     raycaster = new THREE.Raycaster();
     var selected
-    function onDocumentMouseMove( event ) {
-        mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-        mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-        raycaster.setFromCamera( mouse, camera );
-        const intersects = raycaster.intersectObjects( [
-            head ,         
-            neck ,         
-            upperbody ,    
-            stomach  ,     
-            arm_left_up   ,
-            arm_left_down ,
-            arm_right_up  ,
+    function onDocumentMouseMove(event) {
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects([
+            head,
+            neck,
+            upperbody,
+            stomach,
+            arm_left_up,
+            arm_left_down,
+            arm_right_up,
             arm_right_down,
-            leg_left_up   ,
-            leg_left_down ,
-            leg_right_up  ,
-            leg_right_down] );
-        if ( intersects.length > 0 ) {      
-            if ( INTERSECTED != intersects[ 0 ].object ) {
-                if ( INTERSECTED ) INTERSECTED.material.transparent = false;  
-        		INTERSECTED = intersects[ 0 ].object;
-        		INTERSECTED.material.transparent = true;     
+            leg_left_up,
+            leg_left_down,
+            leg_right_up,
+            leg_right_down]);
+        if (intersects.length > 0) {
+            if (INTERSECTED != intersects[0].object) {
+                if (INTERSECTED) INTERSECTED.material.transparent = false;
+                INTERSECTED = intersects[0].object;
+                INTERSECTED.material.transparent = true;
                 INTERSECTED.material.opacity = 0.3;
             }
         }
-        else{
-            if(INTERSECTED) INTERSECTED.material.transparent = false;     
+        else {
+            if (INTERSECTED) INTERSECTED.material.transparent = false;
             INTERSECTED = null;
-   
+
         }
     }
-    function onDocumentMouseDown( event ) {
-       
-        mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-        mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-        raycaster.setFromCamera( mouse, camera );
-        const intersects = raycaster.intersectObjects( [
-            head ,         
-            neck ,         
-            upperbody ,    
-            stomach  ,     
-            arm_left_up   ,
-            arm_left_down ,
-            arm_right_up  ,
+    function onDocumentMouseDown(event) {
+
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects([
+            head,
+            neck,
+            upperbody,
+            stomach,
+            arm_left_up,
+            arm_left_down,
+            arm_right_up,
             arm_right_down,
-            leg_left_up   ,
-            leg_left_down ,
-            leg_right_up  ,
-            leg_right_down] );
+            leg_left_up,
+            leg_left_down,
+            leg_right_up,
+            leg_right_down]);
         if (selected) selected.material.transparent = false;
-        selected = INTERSECTED  
-        
+        selected = INTERSECTED
+
         console.log(selected)
     }
-    function onDocumentKeyDown( event ) {
+    function onDocumentKeyDown(event) {
         var keyCode = event.which;
         // up
         if (keyCode == 69) {
-            
-            
-        mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-        mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-        
-        raycaster.setFromCamera( mouse, camera );
-        const intersects = raycaster.intersectObjects( [
-            head ,         
-            neck ,         
-            upperbody ,    
-            stomach  ,     
-            arm_left_up   ,
-            arm_left_down ,
-            arm_right_up  ,
-            arm_right_down,
-            leg_left_up   ,
-            leg_left_down ,
-            leg_right_up  ,
-            leg_right_down] );
-        if (selected) selected.material.transparent = false;
-        selected = INTERSECTED  
-        Man.selected = selected
-        Man.name = selected.name
-        controls.new()
-       console.log(Man.selected)
+
+
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects([
+                head,
+                neck,
+                upperbody,
+                stomach,
+                arm_left_up,
+                arm_left_down,
+                arm_right_up,
+                arm_right_down,
+                leg_left_up,
+                leg_left_down,
+                leg_right_up,
+                leg_right_down]);
+            if (selected) selected.material.transparent = false;
+            selected = INTERSECTED
+            Man.selected = selected
+            Man.name = selected.name
+            controls.new()
+            console.log(Man.selected)
         }
     }
 
-    function createMan(){
+    function createMan() {
         var texture = textureLoader.load('general/brick-wall.jpg')
-    for(var i=0; i<=11; i++){
-        var cubeGeometry = new THREE.BoxGeometry(4,4,4);
+        for (var i = 0; i <= 11; i++) {
+            var cubeGeometry = new THREE.BoxGeometry(4, 4, 4);
 
-        var cubeMaterial =  new THREE.MeshStandardMaterial(
-            {
-              map: texture,
-              metalness: 0.2,
-              roughness: 0.07
-          });
-        var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-        cube.name = i    
-        cube.position.y += i +2
-        cube.castShadow = true
-        cube.receiveShadow = true
-        cube.px = 0
-        cube.py = 0
-        cube.pz = 0
+            var cubeMaterial = new THREE.MeshStandardMaterial(
+                {
+                    map: texture,
+                    metalness: 0.2,
+                    roughness: 0.07
+                });
+            var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+            cube.name = i
+            cube.position.y += i + 2
+            cube.castShadow = true
+            cube.receiveShadow = true
+            cube.px = 0
+            cube.py = 0
+            cube.pz = 0
 
-        Man.add(cube)
-        
-    } 
-    
-    
-    scene.add(Man)
-    head            = scene.getObjectByName(11)
-    neck            = scene.getObjectByName(10)
+            Man.add(cube)
 
-    upperbody       = scene.getObjectByName(9)
-    stomach         = scene.getObjectByName(8)
-
-    arm_left_up     = scene.getObjectByName(7)
-    arm_left_down   = scene.getObjectByName(6)
-    arm_right_up    = scene.getObjectByName(5)
-    arm_right_down  = scene.getObjectByName(4)
-
-    leg_left_up     = scene.getObjectByName(3)
-    leg_left_down   = scene.getObjectByName(2)
-    leg_right_up    = scene.getObjectByName(1)
-    leg_right_down  = scene.getObjectByName(0)
-
-    head          .name = "head          "
-    neck          .name = "neck          "
-    upperbody     .name = "upperbody     "
-    stomach       .name = "stomach       "
-    arm_left_up   .name = "arm_left_up   "
-    arm_left_down .name = "arm_left_down "
-    arm_right_up  .name = "arm_right_up  "
-    arm_right_down.name = "arm_right_down"
-    leg_left_up   .name = "leg_left_up   "
-    leg_left_down .name = "leg_left_down "
-    leg_right_up  .name = "leg_right_up  "
-    leg_right_down.name = "leg_right_down"
+        }
 
 
-    Man.selected = head
-    Man.name = head.name
+        scene.add(Man)
+        head = scene.getObjectByName(11)
+        neck = scene.getObjectByName(10)
+
+        upperbody = scene.getObjectByName(9)
+        stomach = scene.getObjectByName(8)
+
+        arm_left_up = scene.getObjectByName(7)
+        arm_left_down = scene.getObjectByName(6)
+        arm_right_up = scene.getObjectByName(5)
+        arm_right_down = scene.getObjectByName(4)
+
+        leg_left_up = scene.getObjectByName(3)
+        leg_left_down = scene.getObjectByName(2)
+        leg_right_up = scene.getObjectByName(1)
+        leg_right_down = scene.getObjectByName(0)
+
+        head.name = "head          "
+        neck.name = "neck          "
+        upperbody.name = "upperbody     "
+        stomach.name = "stomach       "
+        arm_left_up.name = "arm_left_up   "
+        arm_left_down.name = "arm_left_down "
+        arm_right_up.name = "arm_right_up  "
+        arm_right_down.name = "arm_right_down"
+        leg_left_up.name = "leg_left_up   "
+        leg_left_down.name = "leg_left_down "
+        leg_right_up.name = "leg_right_up  "
+        leg_right_down.name = "leg_right_down"
 
 
-    
-    x = 0.9
-    y = x - 0.5
-    head.scale.set(x,x,x)
-    head.position.y +=10
-    neck.position.y = head.position.y - 2.5
-    neck.scale.set(y,y,y)
+        Man.selected = head
+        Man.name = head.name
 
-    upperbody.scale.set(1,1,2)
-    upperbody.position.y = neck.position.y-2.5
-    
-    stomach.position.y = upperbody.position.y-2.5
-    stomach.scale.set(0.8,-2,1.5)
-    
-    arm_left_up.position.z = upperbody.position.z - 5
-    arm_left_up.scale.set(-0.6,1.5,-0.6    )
-    arm_left_up.position.y = upperbody.position.y - 1.5
 
-    arm_left_down.scale.set(-0.5,1.5,-0.5   )
-    arm_left_down.position.z = arm_left_up.position.z
-    arm_left_down.position.y = arm_left_up.position.y -5
 
-    arm_right_up.position.z = upperbody.position.z + 5
-    arm_right_up.scale.set(-0.6,1.5,-0.6    )
-    arm_right_up.position.y = upperbody.position.y - 1.5
+        x = 0.9
+        y = x - 0.5
+        head.scale.set(x, x, x)
+        head.position.y += 10
+        neck.position.y = head.position.y - 2.5
+        neck.scale.set(y, y, y)
 
-    arm_right_down.scale.set(-0.5,1.5,-0.5   )
-    arm_right_down.position.z = arm_right_up.position.z
-    arm_right_down.position.y = arm_right_up.position.y -5
+        upperbody.scale.set(1, 1, 2)
+        upperbody.position.y = neck.position.y - 2.5
 
-    //
-    leg_left_up.position.z = upperbody.position.z - 2
-    leg_left_up.scale.set(-0.6,1.5,-0.6    )
-    leg_left_up.position.y = upperbody.position.y - 9.5
+        stomach.position.y = upperbody.position.y - 2.5
+        stomach.scale.set(0.8, -2, 1.5)
 
-    leg_left_down.scale.set(-0.5,1.5,-0.5   )
-    leg_left_down.position.z = leg_left_up.position.z
-    leg_left_down.position.y = leg_left_up.position.y -5
+        arm_left_up.position.z = upperbody.position.z - 5
+        arm_left_up.scale.set(-0.6, 1.5, -0.6)
+        arm_left_up.position.y = upperbody.position.y - 1.5
 
-    leg_right_up.position.z = upperbody.position.z + 2
-    leg_right_up.scale.set(-0.6,1.5,-0.6    )
-    leg_right_up.position.y = upperbody.position.y - 9.5
+        arm_left_down.scale.set(-0.5, 1.5, -0.5)
+        arm_left_down.position.z = arm_left_up.position.z
+        arm_left_down.position.y = arm_left_up.position.y - 5
 
-    leg_right_down.scale.set(-0.5,1.5,-0.5   )
-    leg_right_down.position.z = leg_right_up.position.z
-    leg_right_down.position.y = leg_right_up.position.y -5
+        arm_right_up.position.z = upperbody.position.z + 5
+        arm_right_up.scale.set(-0.6, 1.5, -0.6)
+        arm_right_up.position.y = upperbody.position.y - 1.5
+
+        arm_right_down.scale.set(-0.5, 1.5, -0.5)
+        arm_right_down.position.z = arm_right_up.position.z
+        arm_right_down.position.y = arm_right_up.position.y - 5
+
+        //
+        leg_left_up.position.z = upperbody.position.z - 2
+        leg_left_up.scale.set(-0.6, 1.5, -0.6)
+        leg_left_up.position.y = upperbody.position.y - 9.5
+
+        leg_left_down.scale.set(-0.5, 1.5, -0.5)
+        leg_left_down.position.z = leg_left_up.position.z
+        leg_left_down.position.y = leg_left_up.position.y - 5
+
+        leg_right_up.position.z = upperbody.position.z + 2
+        leg_right_up.scale.set(-0.6, 1.5, -0.6)
+        leg_right_up.position.y = upperbody.position.y - 9.5
+
+        leg_right_down.scale.set(-0.5, 1.5, -0.5)
+        leg_right_down.position.z = leg_right_up.position.z
+        leg_right_down.position.y = leg_right_up.position.y - 5
 
     }
     createMan();
@@ -277,29 +277,29 @@ function init() {
     Man.name = head.name
     console.log(Man);
     Man.position.y -= 0.5
-    
-    
-   
+
+
+
     var controls = new function () {
-        
-        this.totalwireframe = function(){
-            
-            for (i of Man.children){
-                if (i.material.wireframe){
-                    i.material.wireframe = false    
+
+        this.totalwireframe = function () {
+
+            for (i of Man.children) {
+                if (i.material.wireframe) {
+                    i.material.wireframe = false
                 }
                 else i.material.wireframe = true
-            }    
-        }
-        this.nowireframe = function(){
-            for (i of Man.children){
-                i.material.wireframe = false   
             }
         }
-        this.reset = function(){
-            if( Man.selected)
+        this.nowireframe = function () {
+            for (i of Man.children) {
+                i.material.wireframe = false
+            }
+        }
+        this.reset = function () {
+            if (Man.selected)
                 Man.selected.material.transparent = false
-            for (i of Man.children){
+            for (i of Man.children) {
                 i.rotation.x = 0
                 i.rotation.y = 0
                 i.rotation.z = 0
@@ -307,54 +307,54 @@ function init() {
                 i.position.x = 0
                 i.position.z = 0
             }
-            head.position.y =23
-           
+            head.position.y = 23
+
             neck.position.y = head.position.y - 2.5
-            
-            upperbody.position.y = neck.position.y-2.5
-                    
-            stomach.position.y = upperbody.position.y-2.5
-          
-                    
+
+            upperbody.position.y = neck.position.y - 2.5
+
+            stomach.position.y = upperbody.position.y - 2.5
+
+
             arm_left_up.position.z = upperbody.position.z - 5
-            
+
             arm_left_up.position.y = upperbody.position.y - 1.5
-            
+
             arm_left_down.position.z = arm_left_up.position.z
-            arm_left_down.position.y = arm_left_up.position.y -5
+            arm_left_down.position.y = arm_left_up.position.y - 5
             arm_right_up.position.z = upperbody.position.z + 5
-            
+
             arm_right_up.position.y = upperbody.position.y - 1.5
-            
+
             arm_right_down.position.z = arm_right_up.position.z
-            arm_right_down.position.y = arm_right_up.position.y -5
+            arm_right_down.position.y = arm_right_up.position.y - 5
             //
             leg_left_up.position.z = upperbody.position.z - 2
-            
+
             leg_left_up.position.y = upperbody.position.y - 9.5
-            
+
             leg_left_down.position.z = leg_left_up.position.z
-            leg_left_down.position.y = leg_left_up.position.y -5
+            leg_left_down.position.y = leg_left_up.position.y - 5
             leg_right_up.position.z = upperbody.position.z + 2
-            
+
             leg_right_up.position.y = upperbody.position.y - 9.5
-            
+
             leg_right_down.position.z = leg_right_up.position.z
-            leg_right_down.position.y = leg_right_up.position.y -5
+            leg_right_down.position.y = leg_right_up.position.y - 5
 
             selected = head
             Man.selected = head
             Man.name = head.name
             var texture = textureLoader.load('general/brick-wall.jpg')
-           
-            for (i of Man.children){
-                if(i instanceof THREE.Mesh){
-                    var cubeMaterial =  new THREE.MeshStandardMaterial(
+
+            for (i of Man.children) {
+                if (i instanceof THREE.Mesh) {
+                    var cubeMaterial = new THREE.MeshStandardMaterial(
                         {
-                          map: texture,
-                          metalness: 0.2,
-                          roughness: 0.07
-                      });
+                            map: texture,
+                            metalness: 0.2,
+                            roughness: 0.07
+                        });
                     i.material = cubeMaterial
                     i.material.transparent = false
                 }
@@ -376,12 +376,12 @@ function init() {
             this.rp_X = Man.selected.position.x
             this.rp_Y = Man.selected.position.y
             this.rp_Z = Man.selected.position.z
-            
+
         }
         this.r_X = 0
         this.r_Y = 0
         this.r_Z = 0
-        
+
         this.p_X = 0
         this.p_Y = 0
         this.p_Z = 0
@@ -390,443 +390,377 @@ function init() {
         this.rp_Y = Man.selected.position.y
         this.rp_Z = Man.selected.position.z
 
-        
+
         this.wireframe = false
-        this.new = function(){
-            this.r_X =  Man.selected.rotation.x
-            this.r_Y =  Man.selected.rotation.y
-            this.r_Z =  Man.selected.rotation.z
+        this.new = function () {
+            this.r_X = Man.selected.rotation.x
+            this.r_Y = Man.selected.rotation.y
+            this.r_Z = Man.selected.rotation.z
 
             this.rp_X = Man.selected.position.x
             this.rp_Y = Man.selected.position.y
             this.rp_Z = Man.selected.position.z
 
-            this.p_X =  Man.selected.px
-            this.p_Y =  Man.selected.py
-            this.p_Z =  Man.selected.pz
+            this.p_X = Man.selected.px
+            this.p_Y = Man.selected.py
+            this.p_Z = Man.selected.pz
 
             this.wireframe = Man.selected.material.wireframe
         }
-        
-        
+
+
     }
     var clock = new THREE.Clock();
-    var orbitControls = new THREE.OrbitControls(camera,renderer.domElement);
+    var orbitControls = new THREE.OrbitControls(camera, renderer.domElement);
     document.getElementById("webgl-output").appendChild(renderer.domElement);
-    window.addEventListener( 'resize', onWindowResize, false );
-    document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+    window.addEventListener('resize', onWindowResize, false);
+    document.addEventListener('mousemove', onDocumentMouseMove, false);
     //document.addEventListener('pointerdown', onDocumentMouseDown, false );
-    document.addEventListener('keydown', onDocumentKeyDown, false );
+    document.addEventListener('keydown', onDocumentKeyDown, false);
 
-    
+
     const rotateFolder = gui.addFolder("rotate")
-    rotateFolder.add(Man.rotation, "x", -Math.PI , Math.PI , 0.001).listen();
-    rotateFolder.add(Man.rotation, "y", -Math.PI , Math.PI , 0.001).listen();
-    rotateFolder.add(Man.rotation, "z", -Math.PI , Math.PI , 0.001).listen();
+    rotateFolder.add(Man.rotation, "x", -Math.PI, Math.PI, 0.001).listen();
+    rotateFolder.add(Man.rotation, "y", -Math.PI, Math.PI, 0.001).listen();
+    rotateFolder.add(Man.rotation, "z", -Math.PI, Math.PI, 0.001).listen();
 
     const positionFolder = gui.addFolder("position")
-    positionFolder.add(Man.position, "x", -30 , 30 , 0.001).listen();
-    positionFolder.add(Man.position, "y", -30 , 30 , 0.001).listen();
-    positionFolder.add(Man.position, "z", -30 , 30 , 0.001).listen();
-    
-    gui.add(controls,"totalwireframe").listen();
-    gui.add(controls,"reset").listen();
+    positionFolder.add(Man.position, "x", -30, 30, 0.001).listen();
+    positionFolder.add(Man.position, "y", -30, 30, 0.001).listen();
+    positionFolder.add(Man.position, "z", -30, 30, 0.001).listen();
+
+    gui.add(controls, "totalwireframe").listen();
+    gui.add(controls, "reset").listen();
     //gui.add(text).listen();
 
     const selectedFolder = gui.addFolder("selected")
-    selectedFolder.add(controls,"r_X",-Math.PI , Math.PI , 0.001).listen()
-    selectedFolder.add(controls,"r_Y",-Math.PI , Math.PI , 0.001).listen()
-    selectedFolder.add(controls,"r_Z",-Math.PI , Math.PI , 0.001).listen()
+    selectedFolder.add(controls, "r_X", -Math.PI, Math.PI, 0.001).listen()
+    selectedFolder.add(controls, "r_Y", -Math.PI, Math.PI, 0.001).listen()
+    selectedFolder.add(controls, "r_Z", -Math.PI, Math.PI, 0.001).listen()
     var dis = 15
-    selectedFolder.add(controls,"p_X",-dis,  dis , 0.001).listen().onChange(function(e) {
+    selectedFolder.add(controls, "p_X", -dis, dis, 0.001).listen().onChange(function (e) {
         Man.selected.px = e
         Man.selected.position.x = e + controls.rp_X
-      });
-    selectedFolder.add(controls,"p_Y",-dis,  dis , 0.001).listen().onChange(function(e) {
+    });
+    selectedFolder.add(controls, "p_Y", -dis, dis, 0.001).listen().onChange(function (e) {
         Man.selected.px = e
         Man.selected.position.y = e + controls.rp_Y
-      });
-    selectedFolder.add(controls,"p_Z",-dis,  dis , 0.001).listen() .onChange(function(e) {
+    });
+    selectedFolder.add(controls, "p_Z", -dis, dis, 0.001).listen().onChange(function (e) {
         Man.selected.px = e
         Man.selected.position.z = e + controls.rp_Z
-      });
-    selectedFolder.add(controls,"wireframe").listen() 
-    gui.add(Man,"name").listen();
-    
-    var speciesList = {
-        'brick':    'textures/general/brick-wall.jpg',
-        'weave':    'textures/general/weave.jpg',
-        'metal':    'textures/general/metal-floor.jpg',
-        'plaster':  'textures/general/plaster.jpg',
-        'bathroom': 'textures/general/bathroom.jpg',
-        'lava':     'textures/w_c.jpg'
-        };
-   
+    });
+    selectedFolder.add(controls, "wireframe").listen()
+    gui.add(Man, "name").listen();
 
-        //Model loaded by default
-        params = {
-           Material: 'textures/general/brick-wall.jpg'
-        };
- 
-    
-    
-    
-    gui.add(params, 'Material', speciesList).onChange(e =>{
+    var speciesList = {
+        'brick': 'textures/general/brick-wall.jpg',
+        'weave': 'textures/general/weave.jpg',
+        'metal': 'textures/general/metal-floor.jpg',
+        'plaster': 'textures/general/plaster.jpg',
+        'bathroom': 'textures/general/bathroom.jpg',
+        'lava': 'textures/w_c.jpg'
+    };
+
+
+    //Model loaded by default
+    params = {
+        Material: 'textures/general/brick-wall.jpg'
+    };
+
+
+
+
+    gui.add(params, 'Material', speciesList).onChange(e => {
         console.log(e)
         texture = textureLoader.load(params.Material)
         gui.removeFolder(controls2.name)
-        if (e == 'textures/general/brick-wall.jpg'){
-           
+        if (e == 'textures/general/brick-wall.jpg') {
+
             var mat = new THREE.MeshStandardMaterial(
                 {
-                  map: texture,
-                  metalness: 0.2,
-                  roughness: 0.07
+                    map: texture,
+                    metalness: 0.2,
+                    roughness: 0.07
                 });
             var actionFolder = gui.addFolder('brick')
-            actionFolder.add(mat,"metalness",0,1,0.001).listen()
-            actionFolder.add(mat,"roughness",0,1,0.001).listen()
+            actionFolder.add(mat, "metalness", 0, 1, 0.001).listen()
+            actionFolder.add(mat, "roughness", 0, 1, 0.001).listen()
             controls2.color = mat.color.getStyle();
-            
-            actionFolder.addColor(controls2,"color").listen().onChange(function (e) {
+
+            actionFolder.addColor(controls2, "color").listen().onChange(function (e) {
                 mat.color.setStyle(e)
             });
-           
-            controls2.name= 'brick'
-           
+
+            controls2.name = 'brick'
+
         }
-        if (e == 'textures/general/metal-floor.jpg'){
+        if (e == 'textures/general/metal-floor.jpg') {
             var mat = new THREE.MeshStandardMaterial(
                 {
-                  map: texture,
-                  metalness: 0.2,
-                  roughness: 0.07,
-                  normalMap: textureLoader.load('textures/general/metal-floor-normal.jpg')
+                    map: texture,
+                    metalness: 0.2,
+                    roughness: 0.07,
+                    normalMap: textureLoader.load('textures/general/metal-floor-normal.jpg')
                 });
-                var actionFolder = gui.addFolder('metal')
-                actionFolder.add(mat,"metalness",0,1,0.001).listen()
-                actionFolder.add(mat,"roughness",0,1,0.001).listen()
-                controls2.color = mat.color.getStyle();
-                
-                actionFolder.addColor(controls2,"color").listen().onChange(function (e) {
-                    mat.color.setStyle(e)
-                });
-                
-                controls2.name= 'metal'
-                
-           
-        }
-        if (e == 'textures/general/weave.jpg'){
-            var mat = new THREE.MeshStandardMaterial(
-                {
-                  map: texture,
-                  metalness: 0.2,
-                  roughness: 0.07,
-                  bumpMap: textureLoader.load('textures/general/weave-bump.jpg')
-                });
-                var actionFolder = gui.addFolder('weave')
-                actionFolder.add(mat,"metalness",0,1,0.001).listen()
-                actionFolder.add(mat,"roughness",0,1,0.001).listen()
-                controls2.color = mat.color.getStyle();
-                
-                actionFolder.addColor(controls2,"color").listen().onChange(function (e) {
-                    mat.color.setStyle(e)
-                });
-               
-                controls2.name= 'weave'
-           
-           
-        }
-        if (e == 'textures/general/plaster.jpg'){
-            var mat = new THREE.MeshStandardMaterial(
-                {
-                  map: texture,
-                  metalness: 0.2,
-                  roughness: 0.07,
-                  normalMap: textureLoader.load('textures/general/plaster-normal.jpg')
-                });
-                var actionFolder = gui.addFolder('plaster')
-                actionFolder.add(mat,"metalness",0,1,0.001).listen()
-                actionFolder.add(mat,"roughness",0,1,0.001).listen()
-                controls2.color = mat.color.getStyle();
-               
-                actionFolder.addColor(controls2,"color").listen().onChange(function (e) {
-                    mat.color.setStyle(e)
-                });
-               
-                controls2.name= 'plaster'
-                
-           
-           
-        }
-        if (e == 'textures/general/bathroom.jpg'){
-            var mat = new THREE.MeshStandardMaterial(
-                {
-                  map: texture,
-                  metalness: 0.2,
-                  roughness: 0.07,
-                  bumpMap :textureLoader.load('textures/general/bathroom-normal.jpg')
-                });
-                var actionFolder = gui.addFolder('bathroom')
-                actionFolder.add(mat,"metalness",0,1,0.001).listen()
-                actionFolder.add(mat,"roughness",0,1,0.001).listen()
-                controls2.color = mat.color.getStyle();
-                
-                actionFolder.addColor(controls2,"color").listen().onChange(function (e) {
-                    mat.color.setStyle(e)
-                });
-                
-                controls2.name= 'bathroom'
-        }
-        if (e == 'textures/w_c.jpg'){
-            var mat = new THREE.MeshStandardMaterial(
-                {
-                  
-                  metalness: 0.2,
-                  roughness: 1,
-                  color: 0x201a1a,
-                  emissive: 0xfb1a1a,
-                  emissiveMap: textureLoader.load("textures/emissive/lava.png"),
-                  normalMap: textureLoader.load("textures/emissive/lava-normals.png"),
-                  metalnessMap: textureLoader.load("textures/emissive/lava-smoothness.png"),
-                  metalness: 1,
-                  roughness: 0.4
+            var actionFolder = gui.addFolder('metal')
+            actionFolder.add(mat, "metalness", 0, 1, 0.001).listen()
+            actionFolder.add(mat, "roughness", 0, 1, 0.001).listen()
+            controls2.color = mat.color.getStyle();
+
+            actionFolder.addColor(controls2, "color").listen().onChange(function (e) {
+                mat.color.setStyle(e)
             });
-           
+
+            controls2.name = 'metal'
+
+
+        }
+        if (e == 'textures/general/weave.jpg') {
+            var mat = new THREE.MeshStandardMaterial(
+                {
+                    map: texture,
+                    metalness: 0.2,
+                    roughness: 0.07,
+                    bumpMap: textureLoader.load('textures/general/weave-bump.jpg')
+                });
+            var actionFolder = gui.addFolder('weave')
+            actionFolder.add(mat, "metalness", 0, 1, 0.001).listen()
+            actionFolder.add(mat, "roughness", 0, 1, 0.001).listen()
+            controls2.color = mat.color.getStyle();
+
+            actionFolder.addColor(controls2, "color").listen().onChange(function (e) {
+                mat.color.setStyle(e)
+            });
+
+            controls2.name = 'weave'
+
+
+        }
+        if (e == 'textures/general/plaster.jpg') {
+            var mat = new THREE.MeshStandardMaterial(
+                {
+                    map: texture,
+                    metalness: 0.2,
+                    roughness: 0.07,
+                    normalMap: textureLoader.load('textures/general/plaster-normal.jpg')
+                });
+            var actionFolder = gui.addFolder('plaster')
+            actionFolder.add(mat, "metalness", 0, 1, 0.001).listen()
+            actionFolder.add(mat, "roughness", 0, 1, 0.001).listen()
+            controls2.color = mat.color.getStyle();
+
+            actionFolder.addColor(controls2, "color").listen().onChange(function (e) {
+                mat.color.setStyle(e)
+            });
+
+            controls2.name = 'plaster'
+
+
+
+        }
+        if (e == 'textures/general/bathroom.jpg') {
+            var mat = new THREE.MeshStandardMaterial(
+                {
+                    map: texture,
+                    metalness: 0.2,
+                    roughness: 0.07,
+                    bumpMap: textureLoader.load('textures/general/bathroom-normal.jpg')
+                });
+            var actionFolder = gui.addFolder('bathroom')
+            actionFolder.add(mat, "metalness", 0, 1, 0.001).listen()
+            actionFolder.add(mat, "roughness", 0, 1, 0.001).listen()
+            controls2.color = mat.color.getStyle();
+
+            actionFolder.addColor(controls2, "color").listen().onChange(function (e) {
+                mat.color.setStyle(e)
+            });
+
+            controls2.name = 'bathroom'
+        }
+        if (e == 'textures/w_c.jpg') {
+            var mat = new THREE.MeshStandardMaterial(
+                {
+
+                    metalness: 0.2,
+                    roughness: 1,
+                    color: 0x201a1a,
+                    emissive: 0xfb1a1a,
+                    emissiveMap: textureLoader.load("textures/emissive/lava.png"),
+                    normalMap: textureLoader.load("textures/emissive/lava-normals.png"),
+                    metalnessMap: textureLoader.load("textures/emissive/lava-smoothness.png"),
+                    metalness: 1,
+                    roughness: 0.4
+                });
+
             var actionFolder = gui.addFolder('lava')
-            actionFolder.add(mat,"metalness",0,1,0.001).listen()
-            actionFolder.add(mat,"roughness",0,1,0.001).listen()
+            actionFolder.add(mat, "metalness", 0, 1, 0.001).listen()
+            actionFolder.add(mat, "roughness", 0, 1, 0.001).listen()
             mat.color.getStyle();
             mat.emissive.getStyle();
             controls2.color = mat.color.getStyle();
             controls2.emissive = mat.emissive.getStyle();
-            actionFolder.addColor(controls2,"color").listen().onChange(function (e) {
+            actionFolder.addColor(controls2, "color").listen().onChange(function (e) {
                 mat.color.setStyle(e)
             });
-            actionFolder.addColor(controls2,"emissive").listen().onChange(function (e) {
-                mat.emissive.setStyle(e)                
+            actionFolder.addColor(controls2, "emissive").listen().onChange(function (e) {
+                mat.emissive.setStyle(e)
             });
 
-        
-            controls2.name= 'lava'
+
+            controls2.name = 'lava'
         }
         Man.selected.material = mat
         console.log(mat)
     });
-    controls2.name = 'brick'    
+    controls2.name = 'brick'
 
     var actionFolder = gui.addFolder('brick')
-    actionFolder.add(Man.selected.material,"metalness",0,1,0.001)
-    actionFolder.add(Man.selected.material,"roughness",0,1,0.001)  
-      
-    
+    actionFolder.add(Man.selected.material, "metalness", 0, 1, 0.001)
+    actionFolder.add(Man.selected.material, "roughness", 0, 1, 0.001)
+
+
     controls2.color = Man.selected.material.color.getStyle()
-    actionFolder.addColor(controls2,"color").listen().onChange(function (e) {
+    actionFolder.addColor(controls2, "color").listen().onChange(function (e) {
         Man.selected.material.color.setStyle(e)
     });
     renderScene();
-    function renderScene() {    
+    function renderScene() {
         stats.update();
         orbitControls.update();
         camera.updateMatrixWorld();
-        if (selected){
-            
+        if (selected) {
+
             Man.selected.material.transparent = true
             Man.selected.material.opacity = 0.3;
             Man.selected.rotation.x = controls.r_X
             Man.selected.rotation.y = controls.r_Y
             Man.selected.rotation.z = controls.r_Z
-            
-           // Man.selected.position.x = controls.p_X
-           // Man.selected.position.y = controls.p_Y
-           // Man.selected.position.z = controls.p_Z
-            if (controls.wireframe){
+
+            // Man.selected.position.x = controls.p_X
+            // Man.selected.position.y = controls.p_Y
+            // Man.selected.position.z = controls.p_Z
+            if (controls.wireframe) {
                 Man.selected.material.wireframe = true
             }
-            else{
+            else {
                 Man.selected.material.wireframe = false
             }
         }
 
 
-       
+
         requestAnimationFrame(renderScene);
-        
+
         renderer.render(scene, camera);
     }
     function addGeometry(scene, geom, name, texture, gui, controls) {
         var mat = new THREE.MeshStandardMaterial(
-          {
-            map: texture,
-            metalness: 0.2,
-            roughness: 0.07
-        });
+            {
+                map: texture,
+                metalness: 0.2,
+                roughness: 0.07
+            });
         var mesh = new THREE.Mesh(geom, mat);
         mesh.castShadow = true;
-        
+
         scene.add(mesh);
         addBasicMaterialSettings(gui, controls, mat, name + '-THREE.Material');
         addSpecificMaterialSettings(gui, controls, mat, name + '-THREE.MeshStandardMaterial');
-      
-        return mesh;
-      };
-    function addBasicMaterialSettings(gui, controls, material, name) {
 
-        var folderName = (name !== undefined) ? name : 'THREE.Material';
-    
-        controls.material = material;
-    
-        var folder = gui.addFolder(folderName);
-        folder.add(controls.material, 'id');
-        folder.add(controls.material, 'uuid');
-        folder.add(controls.material, 'name');
-        folder.add(controls.material, 'opacity', 0, 1, 0.01);
-        folder.add(controls.material, 'transparent');
-        //folder.add(controls.material, 'overdraw', 0, 1, 0.01);
-        folder.add(controls.material, 'visible');
-        folder.add(controls.material, 'side', {FrontSide: 0, BackSide: 1, BothSides: 2}).onChange(function (side) {
-            controls.material.side = parseInt(side)
-        });
-    
-        folder.add(controls.material, 'colorWrite');
-        folder.add(controls.material, 'flatShading').onChange(function(shading) {
-            controls.material.flatShading = shading;
-            controls.material.needsUpdate = true;
-        });
-        folder.add(controls.material, 'premultipliedAlpha');
-        folder.add(controls.material, 'dithering');
-        folder.add(controls.material, 'shadowSide', {FrontSide: 0, BackSide: 1, BothSides: 2});
-        folder.add(controls.material, 'vertexColors', {NoColors: THREE.NoColors, FaceColors: THREE.FaceColors, VertexColors: THREE.VertexColors}).onChange(function (vertexColors) {
-            material.vertexColors = parseInt(vertexColors);
-        });
-        folder.add(controls.material, 'fog');
-    
-        return folder;
-    }
-    function addSpecificMaterialSettings(gui, controls, material, name) {
-        controls.material = material;
-        
-        var folderName = (name !== undefined) ? name : 'THREE.' + material.type;
-        var folder = gui.addFolder(folderName);
-        switch (material.type) {
-            case "MeshNormalMaterial":
-                folder.add(controls.material,'wireframe');
-                return folder;
-    
-            case "MeshPhongMaterial":
-                controls.specular = material.specular.getStyle();
-                folder.addColor(controls, 'specular').onChange(function (e) {
-                    material.specular.setStyle(e)
-                });
-                folder.add(material, 'shininess', 0, 100, 0.01);
-                return folder;            
-                
-            case "MeshStandardMaterial":
-                controls.color = material.color.getStyle();
-                folder.addColor(controls, 'color').onChange(function (e) {
-                    material.color.setStyle(e)
-                });
-                controls.emissive = material.emissive.getStyle();
-                folder.addColor(controls, 'emissive').onChange(function (e) {
-                    material.emissive.setStyle(e)                
-                });
-                folder.add(material, 'metalness', 0, 1, 0.01);
-                folder.add(material, 'roughness', 0, 1, 0.01);
-                folder.add(material, 'wireframe');
-    
-                return folder;
-        }
-    }    
-        
+        return mesh;
+    };
+
+
     function onWindowResize() {
 
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
 
-        renderer.setSize( window.innerWidth, window.innerHeight );
+        renderer.setSize(window.innerWidth, window.innerHeight);
 
     }
-    
-    
 
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
