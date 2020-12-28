@@ -5,11 +5,12 @@
  - [dominhquang](https://github.com/QuangDo2311)
 
 # How to use
+### Exam1 model loading
+- use your mouse to navigate, select option on GUI
 ### Exam2 model creating
 - use mouse to naviagte, select mesh and changing that meshe position and rotation within the panel from the GUI
 - press E to select
-### Exam1 model loading
-- use your mouse to navigate, select option on GUI
+
 
 
 # Features
@@ -18,17 +19,20 @@
 - show performence
 - orbit control. Shift+ leftmouse to move upward,downward, side to side. Leftmouse to rotate the camera. Middle mouse to zoom in/out
 
+
+### Exam1 model loading
+- you can rotate, size the model
+- you can change the model
+- you can change the model color
+- you can see frame by frame, stop, play, accelerating animation speed
 ### Exam2 model creating
 - selected mesh or mesh that under the pointer will have transparent material
 - you can move, rotate the whole model or just the  selected mesh
 - you can show individual wireframe or the whole mesh(but i leave it at if that material is already in wireframe mode, it will turn back to noraml, maybe i should add a tick box for it)
 - you can select individual texture (but if you want to select the same, you have to change it then reselect due to .onchange(), i will find a way to work around that soon)
 - you can reset the whole thing for the model to be in it orginal form
-### Exam1 model loading
-- you can rotate, size the model
-- you can change the model
-- you can change the model color
-- you can see frame by frame, stop, play, accelerating animation speed
+
+
 ### exam1 model loading test
 ![exam1_1](https://github.com/hohaidangpro/three-js-se04-14/blob/main/exam2_model_creating/promote%20images/exam1_1.png?raw=true)
 ### exam2 model creating test
