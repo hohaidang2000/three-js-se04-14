@@ -32,6 +32,7 @@
 - you can show individual wireframe or the whole mesh(but i leave it at if that material is already in wireframe mode, it will turn back to noraml, maybe i should add a tick box for it)
 - you can select individual texture (but if you want to select the same, you have to change it then reselect due to .onchange(), i will find a way to work around that soon)
 - you can reset the whole thing for the model to be in it orginal form
+- selected's material have extra options and color picker
 
 
 ### exam1 model loading test
