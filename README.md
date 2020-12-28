@@ -1,6 +1,6 @@
 # three-js-se04-14
 
-![exam2_1](exam2_model_creating/promote images/exam2_1.png)
+![exam2_1.png](exam2_model_creating/promote images/exam2_1.png)
 ### students
  - [hohaidang](https://github.com/hohaidangpro)
  - [dominhquang](https://github.com/QuangDo2311)
