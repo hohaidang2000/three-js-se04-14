@@ -13,6 +13,9 @@
 
 
 # Features
+### Both Exam
+- will resize the window
+
 ### Exam2 model creating
 - selected mesh or mesh that under the pointer will have transparent material
 - you can move the whole model or just the mesh
