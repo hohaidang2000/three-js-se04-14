@@ -15,6 +15,7 @@
 # Features
 ### Both Exam
 - will resize the window
+- show performence
 
 ### Exam2 model creating
 - selected mesh or mesh that under the pointer will have transparent material
