@@ -16,7 +16,7 @@
 ### Both Exam
 - will resize the window
 - show performence
-- orbit control. Shift+ leftmouse to move upward,downward, side to side. Leftmouse, middlemouse to rotate the camera
+- orbit control. Shift+ leftmouse to move upward,downward, side to side. Leftmouse to rotate the camera. Middle mouse to zoom in/out
 
 ### Exam2 model creating
 - selected mesh or mesh that under the pointer will have transparent material
