@@ -1,10 +1,10 @@
 # three-js-se04-14
-
+![exam2_1.png] (https://github.com/hohaidangpro/three-js-se04-14/blob/main/exam2_model_creating/promote%20images/exam2_1.png)
 
 ### students
  - [hohaidang](https://github.com/hohaidangpro)
  - [dominhquang](https://github.com/QuangDo2311)
-![model exam1] (https://github.com/hohaidangpro/three-js-se04-14/blob/main/exam2_model_creating/promote%20images/exam2_1.png)
+
 # How to use
 ### Exam2 model creating
 - use mouse to naviagte, select mesh and changing that meshe position and rotation within the panel from the GUI
