@@ -1,7 +1,20 @@
 
 function init() {
-    var stats = initStats();
+    const gui = new dat.GUI()
+    var controls2 ={}
+    dat.GUI.prototype.removeFolder = function(name) {
+        var folder = this.__folders[name];
+        if (!folder) {
+          return;
+        }
+        folder.close();
+        this.__ul.removeChild(folder.domElement.parentNode);
+        delete this.__folders[name];
+        this.onResize();
+      }
 
+    var stats = initStats();
+    
     var textureLoader = new THREE.TextureLoader();
     // default setup
     var scene = new THREE.Scene();
@@ -58,10 +71,10 @@ function init() {
         leg_right_up, leg_right_down
     
     let INTERSECTED;
-    let theta = 0;
+    
 
     const mouse = new THREE.Vector2();
-    const radius = 100;
+    
     raycaster = new THREE.Raycaster();
     var selected
     function onDocumentMouseMove( event ) {
@@ -173,7 +186,8 @@ function init() {
         Man.add(cube)
         
     } 
-    Man.tex = 'brick-wall.jpg'
+    
+    
     scene.add(Man)
     head            = scene.getObjectByName(11)
     neck            = scene.getObjectByName(10)
@@ -207,6 +221,9 @@ function init() {
 
     Man.selected = head
     Man.name = head.name
+
+
+    
     x = 0.9
     y = x - 0.5
     head.scale.set(x,x,x)
@@ -252,6 +269,7 @@ function init() {
     leg_right_down.scale.set(-0.5,1.5,-0.5   )
     leg_right_down.position.z = leg_right_up.position.z
     leg_right_down.position.y = leg_right_up.position.y -5
+
     }
     createMan();
     selected = head
@@ -259,7 +277,7 @@ function init() {
     Man.name = head.name
     console.log(Man);
     Man.position.y -= 0.5
-   
+    
     
    
     var controls = new function () {
@@ -400,7 +418,7 @@ function init() {
     //document.addEventListener('pointerdown', onDocumentMouseDown, false );
     document.addEventListener('keydown', onDocumentKeyDown, false );
 
-    const gui = new dat.GUI()
+    
     const rotateFolder = gui.addFolder("rotate")
     rotateFolder.add(Man.rotation, "x", -Math.PI , Math.PI , 0.001).listen();
     rotateFolder.add(Man.rotation, "y", -Math.PI , Math.PI , 0.001).listen();
@@ -434,41 +452,178 @@ function init() {
       });
     selectedFolder.add(controls,"wireframe").listen() 
     gui.add(Man,"name").listen();
-
+    
     var speciesList = {
-        'brick': 'general/brick-wall.jpg',
-        'weave': 'general/weave.jpg',
-        'metal': 'general/metal-floor.jpg',
-        'plaster':'general/plaster.jpg'
-        
+        'brick':    'textures/general/brick-wall.jpg',
+        'weave':    'textures/general/weave.jpg',
+        'metal':    'textures/general/metal-floor.jpg',
+        'plaster':  'textures/general/plaster.jpg',
+        'bathroom': 'textures/general/bathroom.jpg',
+        'lava':     'textures/w_c.jpg'
         };
-    var respeciesList = {
-        './model/cat/cat_red.glb':'cat',
-        './model/parrot/parrot.glb':'parrot'
-        
-        };
+   
 
         //Model loaded by default
         params = {
-           Material: 'general/brick-wall.jpg'
+           Material: 'textures/general/brick-wall.jpg'
         };
-       
-    gui.add(params, 'Material', speciesList).onChange(function(){
-        texture = textureLoader.load(params.Material)
-        var mat = new THREE.MeshStandardMaterial(
-            {
-              map: texture,
-              metalness: 0.2,
-              roughness: 0.07
-          });
-        Man.selected.material = mat
-    });
+ 
     
-    var cube = new THREE.BoxGeometry(10, 10, 10)
-    var cubeMesh = addGeometry(scene, cube, 'cube', textureLoader.load('general/brick-wall.jpg'), gui, controls);
-    cubeMesh.position.x = -20;
+    
+    
+    gui.add(params, 'Material', speciesList).onChange(e =>{
+        console.log(e)
+        texture = textureLoader.load(params.Material)
+        gui.removeFolder(controls2.name)
+        if (e == 'textures/general/brick-wall.jpg'){
+           
+            var mat = new THREE.MeshStandardMaterial(
+                {
+                  map: texture,
+                  metalness: 0.2,
+                  roughness: 0.07
+                });
+            var actionFolder = gui.addFolder('brick')
+            actionFolder.add(mat,"metalness",0,1,0.001).listen()
+            actionFolder.add(mat,"roughness",0,1,0.001).listen()
+            controls2.color = mat.color.getStyle();
+            
+            actionFolder.addColor(controls2,"color").listen().onChange(function (e) {
+                mat.color.setStyle(e)
+            });
+           
+            controls2.name= 'brick'
+           
+        }
+        if (e == 'textures/general/metal-floor.jpg'){
+            var mat = new THREE.MeshStandardMaterial(
+                {
+                  map: texture,
+                  metalness: 0.2,
+                  roughness: 0.07,
+                  normalMap: textureLoader.load('textures/general/metal-floor-normal.jpg')
+                });
+                var actionFolder = gui.addFolder('metal')
+                actionFolder.add(mat,"metalness",0,1,0.001).listen()
+                actionFolder.add(mat,"roughness",0,1,0.001).listen()
+                controls2.color = mat.color.getStyle();
+                
+                actionFolder.addColor(controls2,"color").listen().onChange(function (e) {
+                    mat.color.setStyle(e)
+                });
+                
+                controls2.name= 'metal'
+                
+           
+        }
+        if (e == 'textures/general/weave.jpg'){
+            var mat = new THREE.MeshStandardMaterial(
+                {
+                  map: texture,
+                  metalness: 0.2,
+                  roughness: 0.07,
+                  bumpMap: textureLoader.load('textures/general/weave-bump.jpg')
+                });
+                var actionFolder = gui.addFolder('weave')
+                actionFolder.add(mat,"metalness",0,1,0.001).listen()
+                actionFolder.add(mat,"roughness",0,1,0.001).listen()
+                controls2.color = mat.color.getStyle();
+                
+                actionFolder.addColor(controls2,"color").listen().onChange(function (e) {
+                    mat.color.setStyle(e)
+                });
+               
+                controls2.name= 'weave'
+           
+           
+        }
+        if (e == 'textures/general/plaster.jpg'){
+            var mat = new THREE.MeshStandardMaterial(
+                {
+                  map: texture,
+                  metalness: 0.2,
+                  roughness: 0.07,
+                  normalMap: textureLoader.load('textures/general/plaster-normal.jpg')
+                });
+                var actionFolder = gui.addFolder('plaster')
+                actionFolder.add(mat,"metalness",0,1,0.001).listen()
+                actionFolder.add(mat,"roughness",0,1,0.001).listen()
+                controls2.color = mat.color.getStyle();
+               
+                actionFolder.addColor(controls2,"color").listen().onChange(function (e) {
+                    mat.color.setStyle(e)
+                });
+               
+                controls2.name= 'plaster'
+                
+           
+           
+        }
+        if (e == 'textures/general/bathroom.jpg'){
+            var mat = new THREE.MeshStandardMaterial(
+                {
+                  map: texture,
+                  metalness: 0.2,
+                  roughness: 0.07,
+                  bumpMap :textureLoader.load('textures/general/bathroom-normal.jpg')
+                });
+                var actionFolder = gui.addFolder('bathroom')
+                actionFolder.add(mat,"metalness",0,1,0.001).listen()
+                actionFolder.add(mat,"roughness",0,1,0.001).listen()
+                controls2.color = mat.color.getStyle();
+                
+                actionFolder.addColor(controls2,"color").listen().onChange(function (e) {
+                    mat.color.setStyle(e)
+                });
+                
+                controls2.name= 'bathroom'
+        }
+        if (e == 'textures/w_c.jpg'){
+            var mat = new THREE.MeshStandardMaterial(
+                {
+                  
+                  metalness: 0.2,
+                  roughness: 1,
+                  color: 0x201a1a,
+                  emissive: 0xfb1a1a,
+                  emissiveMap: textureLoader.load("textures/emissive/lava.png"),
+                  normalMap: textureLoader.load("textures/emissive/lava-normals.png"),
+                  metalnessMap: textureLoader.load("textures/emissive/lava-smoothness.png"),
+                  metalness: 1,
+                  roughness: 0.4
+            });
+           
+            var actionFolder = gui.addFolder('lava')
+            actionFolder.add(mat,"metalness",0,1,0.001).listen()
+            actionFolder.add(mat,"roughness",0,1,0.001).listen()
+            mat.color.getStyle();
+            mat.emissive.getStyle();
+            controls2.color = mat.color.getStyle();
+            controls2.emissive = mat.emissive.getStyle();
+            actionFolder.addColor(controls2,"color").listen().onChange(function (e) {
+                mat.color.setStyle(e)
+            });
+            actionFolder.addColor(controls2,"emissive").listen().onChange(function (e) {
+                mat.emissive.setStyle(e)                
+            });
+
+        
+            controls2.name= 'lava'
+        }
+        Man.selected.material = mat
+        console.log(mat)
+    });
+    controls2.name = 'brick'    
+
+    var actionFolder = gui.addFolder('brick')
+    actionFolder.add(Man.selected.material,"metalness",0,1,0.001)
+    actionFolder.add(Man.selected.material,"roughness",0,1,0.001)  
       
-    var pre;    
+    
+    controls2.color = Man.selected.material.color.getStyle()
+    actionFolder.addColor(controls2,"color").listen().onChange(function (e) {
+        Man.selected.material.color.setStyle(e)
+    });
     renderScene();
     function renderScene() {    
         stats.update();
