@@ -28,3 +28,8 @@
 ![exam1_1](https://github.com/hohaidangpro/three-js-se04-14/blob/main/exam2_model_creating/promote%20images/exam1_1.png?raw=true)
 ### exam2 model creating test
 ![exam2_1.png](https://github.com/hohaidangpro/three-js-se04-14/blob/main/exam2_model_creating/promote%20images/exam2_1.png?raw=true)
+
+### examples, sources
+-https://threejs.org/examples/
+-https://stackoverflow.com/questions/57328700/using-a-switch-statement-to-load-multiple-objects-in-three-js
+-https://github.com/PacktPublishing/Learn-Three.js-Third-Edition
