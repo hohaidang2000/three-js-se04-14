@@ -30,6 +30,6 @@
 ![exam2_1.png](https://github.com/hohaidangpro/three-js-se04-14/blob/main/exam2_model_creating/promote%20images/exam2_1.png?raw=true)
 
 ### examples, sources
--[thank you]https://threejs.org/examples/
--[thank you]https://stackoverflow.com/questions/57328700/using-a-switch-statement-to-load-multiple-objects-in-three-js
--[thank you]https://github.com/PacktPublishing/Learn-Three.js-Third-Edition
+- [thank you]https://threejs.org/examples/
+- [thank you]https://stackoverflow.com/questions/57328700/using-a-switch-statement-to-load-multiple-objects-in-three-js
+- [thank you]https://github.com/PacktPublishing/Learn-Three.js-Third-Edition
