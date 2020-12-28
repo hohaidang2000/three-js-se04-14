@@ -1,8 +1,9 @@
 # three-js-se04-14
-
+### project's guilder
+ - [Bùi Sỹ Nguyên](https://www.facebook.com/groups/3090155857777168/user/614170901/)
 ### students
- - [hohaidang](https://github.com/hohaidangpro)
- - [dominhquang](https://github.com/QuangDo2311)
+ - [Hồ Hải Đăng](https://github.com/hohaidangpro)
+ - [Đỗ Minh Quang](https://github.com/QuangDo2311)
 
 # How to use
 ### Exam1 model loading
