@@ -396,7 +396,7 @@ function init() {
     positionFolder.add(Man.position, "x", -30 , 30 , 0.001).listen();
     positionFolder.add(Man.position, "y", -30 , 30 , 0.001).listen();
     positionFolder.add(Man.position, "z", -30 , 30 , 0.001).listen();
-  
+    
     gui.add(controls,"totalwireframe").listen();
     gui.add(controls,"reset").listen();
     //gui.add(text).listen();
@@ -426,7 +426,7 @@ function init() {
     var cube = new THREE.BoxGeometry(10, 10, 10)
     var cubeMesh = addGeometry(scene, cube, 'cube', textureLoader.load('general/brick-wall.jpg'), gui, controls);
     cubeMesh.position.x = -20;
-
+      
     var pre;    
     renderScene();
     function renderScene() {    
