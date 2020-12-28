@@ -1,5 +1,5 @@
 # three-js-se04-14
-
+![exam1_1](https://github.com/hohaidangpro/three-js-se04-14/blob/main/exam2_model_creating/promote%20images/exam1_1.png?raw=true)
 ![exam2_1.png](https://github.com/hohaidangpro/three-js-se04-14/blob/main/exam2_model_creating/promote%20images/exam2_1.png?raw=true)
 ### students
  - [hohaidang](https://github.com/hohaidangpro)
