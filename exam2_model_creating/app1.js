@@ -149,7 +149,7 @@ function init() {
        console.log(Man.selected)
         }
     }
-    
+
     function createMan(){
         var texture = textureLoader.load('general/brick-wall.jpg')
     for(var i=0; i<=11; i++){
@@ -259,8 +259,8 @@ function init() {
     Man.name = head.name
     console.log(Man);
     Man.position.y -= 0.5
-    var text = ["brick-wall.jpg","floor-wood.jpg"]
-    console.log(text)
+   
+    
    
     var controls = new function () {
         
@@ -279,7 +279,8 @@ function init() {
             }
         }
         this.reset = function(){
-            Man.selected.material.transparent = false
+            if( Man.selected)
+                Man.selected.material.transparent = false
             for (i of Man.children){
                 i.rotation.x = 0
                 i.rotation.y = 0
@@ -326,7 +327,20 @@ function init() {
             selected = head
             Man.selected = head
             Man.name = head.name
-            
+            var texture = textureLoader.load('general/brick-wall.jpg')
+           
+            for (i of Man.children){
+                if(i instanceof THREE.Mesh){
+                    var cubeMaterial =  new THREE.MeshStandardMaterial(
+                        {
+                          map: texture,
+                          metalness: 0.2,
+                          roughness: 0.07
+                      });
+                    i.material = cubeMaterial
+                    i.material.transparent = false
+                }
+            }
             Man.position.x = 0
             Man.position.y = -0.5
             Man.position.z = 0
@@ -375,7 +389,7 @@ function init() {
 
             this.wireframe = Man.selected.material.wireframe
         }
-        this.text = text
+        
         
     }
     var clock = new THREE.Clock();
@@ -421,7 +435,34 @@ function init() {
     selectedFolder.add(controls,"wireframe").listen() 
     gui.add(Man,"name").listen();
 
+    var speciesList = {
+        'brick': 'general/brick-wall.jpg',
+        'weave': 'general/weave.jpg',
+        'metal': 'general/metal-floor.jpg',
+        'plaster':'general/plaster.jpg'
+        
+        };
+    var respeciesList = {
+        './model/cat/cat_red.glb':'cat',
+        './model/parrot/parrot.glb':'parrot'
+        
+        };
 
+        //Model loaded by default
+        params = {
+           Material: 'general/brick-wall.jpg'
+        };
+       
+    gui.add(params, 'Material', speciesList).onChange(function(){
+        texture = textureLoader.load(params.Material)
+        var mat = new THREE.MeshStandardMaterial(
+            {
+              map: texture,
+              metalness: 0.2,
+              roughness: 0.07
+          });
+        Man.selected.material = mat
+    });
     
     var cube = new THREE.BoxGeometry(10, 10, 10)
     var cubeMesh = addGeometry(scene, cube, 'cube', textureLoader.load('general/brick-wall.jpg'), gui, controls);
