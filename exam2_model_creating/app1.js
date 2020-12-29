@@ -689,7 +689,10 @@ function init() {
     var obj = {
         pos: function () {
             for (i of Man.children) {
-                console.log(i.name, i.position, i.rotation)
+                console.log(i.name,i.position.x,i.position.y,i.position.z)
+                
+
+                console.log(i.rotation.x,i.rotation.y,i.rotation.z)
             }
         }
     }
