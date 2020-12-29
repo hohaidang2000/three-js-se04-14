@@ -431,12 +431,19 @@ function init() {
     gui.add(controls, "totalwireframe").listen();
     gui.add(controls, "reset").listen();
     //gui.add(text).listen();
-
-    const selectedFolder = gui.addFolder("selected")
-    selectedFolder.add(controls, "r_X", -Math.PI, Math.PI, 0.001).listen()
-    selectedFolder.add(controls, "r_Y", -Math.PI, Math.PI, 0.001).listen()
-    selectedFolder.add(controls, "r_Z", -Math.PI, Math.PI, 0.001).listen()
     var dis = 15
+    const selectedFolder = gui.addFolder("selected")
+    selectedFolder.add(controls, "r_X", -Math.PI, Math.PI, 0.001).listen().onChange(function (e) {
+        Man.selected.rotation.x = controls.r_X
+       
+    });
+    selectedFolder.add(controls, "r_Y", -Math.PI, Math.PI, 0.001).listen().onChange(function (e) {
+        Man.selected.rotation.y = controls.r_Y
+    });
+    selectedFolder.add(controls, "r_Z", -Math.PI, Math.PI, 0.001).listen().onChange(function (e) {
+        Man.selected.rotation.z = controls.r_Z
+    });
+    
     selectedFolder.add(controls, "p_X", -dis, dis, 0.001).listen().onChange(function (e) {
         Man.selected.px = e
         Man.selected.position.x = e + controls.rp_X
@@ -706,9 +713,9 @@ function init() {
 
             Man.selected.material.transparent = true
             Man.selected.material.opacity = 0.3;
-            Man.selected.rotation.x = controls.r_X
-            Man.selected.rotation.y = controls.r_Y
-            Man.selected.rotation.z = controls.r_Z
+            //Man.selected.rotation.x = controls.r_X
+            //Man.selected.rotation.y = controls.r_Y
+            //Man.selected.rotation.z = controls.r_Z
 
             // Man.selected.position.x = controls.p_X
             // Man.selected.position.y = controls.p_Y
