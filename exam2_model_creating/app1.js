@@ -134,8 +134,8 @@ function init() {
     function onDocumentKeyDown(event) {
         var keyCode = event.which;
         // up
-        if (keyCode == 81){
-            
+        if (keyCode == 81) {
+
             scene.remove(boxHelper)
 
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -163,14 +163,14 @@ function init() {
             boxHelper = new THREE.BoxHelper(Man.selected);
             boxHelper.material.color.set(0x33FFFF);
             scene.add(boxHelper);
-            gui.removeFolder(controls2.name)    
+            gui.removeFolder(controls2.name)
             var mat = MatLoad(params.Mat)
             Man.selected.material = mat
             controls.new()
-            console.log(Man.selected)           
+            console.log(Man.selected)
         }
         if (keyCode == 69) {
-            
+
             scene.remove(boxHelper)
 
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -514,16 +514,16 @@ function init() {
 
 
     //Model loaded by default
-    params ={
-        Mat:'textures/general/brick-wall.jpg'
-        
+    params = {
+        Mat: 'textures/general/brick-wall.jpg'
+
 
     }
 
 
     gui.add(params, 'Mat', speciesList).listen().onChange(e => {
         console.log(e)
-        
+
         gui.removeFolder(controls2.name)
         var mat = MatLoad(e)
 
@@ -541,7 +541,7 @@ function init() {
         Pose: 'default'
     }
     gui.add(defaultPose, 'Pose', pose).listen().onChange(function (e) {
-        if(e == 'default'){
+        if (e == 'default') {
             for (i of Man.children) {
                 i.rotation.x = 0
                 i.rotation.y = 0
@@ -673,6 +673,42 @@ function init() {
     actionFolder.addColor(controls2, "color").listen().onChange(function (e) {
         Man.selected.material.color.setStyle(e)
     });
+
+
+
+
+    //fetch('input.txt').then(r => r.text()).then(contents => {
+    //    for (i of contents){
+    //        console.log(i);
+    //    }
+    //      });
+    var controls3 = {
+        read: function () {
+
+            const loader = new THREE.FileLoader();
+            THREE.Cache.enabled = true;
+            loader.load('input.txt', e =>{
+                console.log(e)
+            })
+
+        },
+        download: function () {
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent('ererere'));
+            element.setAttribute('download', 'output.txt');
+          
+            element.style.display = 'none';
+            document.body.appendChild(element);
+          
+            element.click();
+          
+            document.body.removeChild(element);
+          }
+
+    }
+
+    gui.add(controls3,'read')
+    gui.add(controls3,'download')
     renderScene();
     function renderScene() {
         if (boxHelper)
