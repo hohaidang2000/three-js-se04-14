@@ -246,17 +246,17 @@ function init() {
         leg_right_up = scene.getObjectByName(1)
         leg_right_down = scene.getObjectByName(0)
 
-        head.name = "head          "
-        neck.name = "neck          "
-        upperbody.name = "upperbody     "
-        stomach.name = "stomach       "
-        arm_left_up.name = "arm_left_up   "
-        arm_left_down.name = "arm_left_down "
-        arm_right_up.name = "arm_right_up  "
+        head.name = "head"
+        neck.name = "neck"
+        upperbody.name = "upperbody"
+        stomach.name = "stomach"
+        arm_left_up.name = "arm_left_up"
+        arm_left_down.name = "arm_left_down"
+        arm_right_up.name = "arm_right_up"
         arm_right_down.name = "arm_right_down"
-        leg_left_up.name = "leg_left_up   "
-        leg_left_down.name = "leg_left_down "
-        leg_right_up.name = "leg_right_up  "
+        leg_left_up.name = "leg_left_up"
+        leg_left_down.name = "leg_left_down"
+        leg_right_up.name = "leg_right_up"
         leg_right_down.name = "leg_right_down"
 
 
@@ -640,13 +640,18 @@ function init() {
 
         }
     });
+    var text
     var obj = {
         pos: function () {
+            text =""
             for (i of Man.children) {
-                console.log(i.name, i.position.x, i.position.y, i.position.z)
+                text += "\n"+new String(i.name)+" "+ i.position.x.toString()+" "+ i.position.y.toString()+" "+ i.position.z.toString()+" "
+                text += new String (i.rotation.x)+" "+new String (i.rotation.y)+" "+new String (i.rotation.z)
+                console.log(text)
+                //console.log(i.rotation.x, i.rotation.y, i.rotation.z )
+                //console.log(new String (i.rotation.x),new String (i.rotation.y),new String (i.rotation.z))
 
-
-                console.log(i.rotation.x, i.rotation.y, i.rotation.z)
+                
             }
         }
     }
@@ -682,19 +687,48 @@ function init() {
     //        console.log(i);
     //    }
     //      });
+    
+    function loadPose(list){
+        console.log(Man)
+        for (i of list){
+            var index
+            //console.log(new String(i))
+            i= i.replace(/(\r\n|\n|\r|"   ")/gm, "");
+            index = i.split(" ")
+            for (k of Man.children){
+                if (k instanceof THREE.Mesh && k.name == index[0]){
+                    var myMesh = k
+                    console.log(myMesh)
+                    myMesh.position.set(index[1],index[2],index[3])
+                    ROTATE(myMesh,index[4],index[5],index[6])  
+                }
+            }
+ 
+        }
+    }
     var controls3 = {
         read: function () {
-
+            var list = []
             const loader = new THREE.FileLoader();
             THREE.Cache.enabled = true;
             loader.load('input.txt', e =>{
-                console.log(e)
+                //console.log(e)
+                var lines = e.split('\n');
+                for(var line = 0; line < lines.length; line++){
+                  //console.log(lines[line]);
+                  list.push(lines[line])
+                }
+                
+                loadPose(list)   
             })
+            
 
         },
         download: function () {
+            obj.pos()
+            console.log(text)
             var element = document.createElement('a');
-            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent('ererere'));
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
             element.setAttribute('download', 'output.txt');
           
             element.style.display = 'none';
