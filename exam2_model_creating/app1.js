@@ -542,7 +542,48 @@ function init() {
     }
     gui.add(defaultPose, 'Pose', pose).listen().onChange(function (e) {
         if(e == 'default'){
-            controls.reset()
+            for (i of Man.children) {
+                i.rotation.x = 0
+                i.rotation.y = 0
+                i.rotation.z = 0
+                i.position.y = 0
+                i.position.x = 0
+                i.position.z = 0
+            }
+            head.position.y = 23
+
+            neck.position.y = head.position.y - 2.5
+
+            upperbody.position.y = neck.position.y - 2.5
+
+            stomach.position.y = upperbody.position.y - 2.5
+
+
+            arm_left_up.position.z = upperbody.position.z - 5
+
+            arm_left_up.position.y = upperbody.position.y - 1.5
+
+            arm_left_down.position.z = arm_left_up.position.z
+            arm_left_down.position.y = arm_left_up.position.y - 5
+            arm_right_up.position.z = upperbody.position.z + 5
+
+            arm_right_up.position.y = upperbody.position.y - 1.5
+
+            arm_right_down.position.z = arm_right_up.position.z
+            arm_right_down.position.y = arm_right_up.position.y - 5
+            //
+            leg_left_up.position.z = upperbody.position.z - 2
+
+            leg_left_up.position.y = upperbody.position.y - 9.5
+
+            leg_left_down.position.z = leg_left_up.position.z
+            leg_left_down.position.y = leg_left_up.position.y - 5
+            leg_right_up.position.z = upperbody.position.z + 2
+
+            leg_right_up.position.y = upperbody.position.y - 9.5
+
+            leg_right_down.position.z = leg_right_up.position.z
+            leg_right_down.position.y = leg_right_up.position.y - 5
         }
         if (e == 'hi') {
             leg_right_down.position.set(0, 3.5, 3.347,)
@@ -802,5 +843,5 @@ function init() {
         return mat
     }
 
-    
+
 }
