@@ -12,7 +12,7 @@ function init() {
         delete this.__folders[name];
         this.onResize();
     }
-
+    var boxHelper
     var stats = initStats();
 
     var textureLoader = new THREE.TextureLoader();
@@ -134,8 +134,9 @@ function init() {
     function onDocumentKeyDown(event) {
         var keyCode = event.which;
         // up
-        if (keyCode == 69) {
-
+        if (keyCode == 81){
+            
+            scene.remove(boxHelper)
 
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
@@ -158,6 +159,46 @@ function init() {
             selected = INTERSECTED
             Man.selected = selected
             Man.name = selected.name
+
+            boxHelper = new THREE.BoxHelper(Man.selected);
+            boxHelper.material.color.set(0x33FFFF);
+            scene.add(boxHelper);
+            gui.removeFolder(controls2.name)    
+            var mat = MatLoad(params.Mat)
+            Man.selected.material = mat
+            controls.new()
+            console.log(Man.selected)           
+        }
+        if (keyCode == 69) {
+            
+            scene.remove(boxHelper)
+
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects([
+                head,
+                neck,
+                upperbody,
+                stomach,
+                arm_left_up,
+                arm_left_down,
+                arm_right_up,
+                arm_right_down,
+                leg_left_up,
+                leg_left_down,
+                leg_right_up,
+                leg_right_down]);
+            if (selected) selected.material.transparent = false;
+            selected = INTERSECTED
+            Man.selected = selected
+            Man.name = selected.name
+
+            boxHelper = new THREE.BoxHelper(Man.selected);
+            boxHelper.material.color.set(0x33FFFF);
+            scene.add(boxHelper);
+
             controls.new()
             console.log(Man.selected)
         }
@@ -222,7 +263,9 @@ function init() {
         Man.selected = head
         Man.name = head.name
 
-
+        boxHelper = new THREE.BoxHelper(Man.selected);
+        boxHelper.material.color.set(0x33FFFF);
+        scene.add(boxHelper);
 
         x = 0.9
         y = x - 0.5
@@ -272,9 +315,7 @@ function init() {
 
     }
     createMan();
-    selected = head
-    Man.selected = head
-    Man.name = head.name
+
     console.log(Man);
     Man.position.y -= 0.5
 
@@ -435,7 +476,7 @@ function init() {
     const selectedFolder = gui.addFolder("selected")
     selectedFolder.add(controls, "r_X", -Math.PI, Math.PI, 0.001).listen().onChange(function (e) {
         Man.selected.rotation.x = controls.r_X
-       
+
     });
     selectedFolder.add(controls, "r_Y", -Math.PI, Math.PI, 0.001).listen().onChange(function (e) {
         Man.selected.rotation.y = controls.r_Y
@@ -443,7 +484,7 @@ function init() {
     selectedFolder.add(controls, "r_Z", -Math.PI, Math.PI, 0.001).listen().onChange(function (e) {
         Man.selected.rotation.z = controls.r_Z
     });
-    
+
     selectedFolder.add(controls, "p_X", -dis, dis, 0.001).listen().onChange(function (e) {
         Man.selected.px = e
         Man.selected.position.x = e + controls.rp_X
@@ -456,10 +497,13 @@ function init() {
         Man.selected.px = e
         Man.selected.position.z = e + controls.rp_Z
     });
-    selectedFolder.add(controls, "wireframe").listen()
+    selectedFolder.add(controls, "wireframe").listen().onChange(function (e) {
+        Man.selected.material.wireframe = controls.wireframe
+    })
     gui.add(Man, "name").listen();
 
     var speciesList = {
+
         'brick': 'textures/general/brick-wall.jpg',
         'weave': 'textures/general/weave.jpg',
         'metal': 'textures/general/metal-floor.jpg',
@@ -470,17 +514,156 @@ function init() {
 
 
     //Model loaded by default
-    params = {
-        Material: 'textures/general/brick-wall.jpg'
-    };
+    params ={
+        Mat:'textures/general/brick-wall.jpg'
+        
+
+    }
 
 
-
-
-    gui.add(params, 'Material', speciesList).onChange(e => {
+    gui.add(params, 'Mat', speciesList).listen().onChange(e => {
         console.log(e)
-        texture = textureLoader.load(params.Material)
+        
         gui.removeFolder(controls2.name)
+        var mat = MatLoad(e)
+
+
+        Man.selected.material = mat
+        console.log(mat)
+    });
+
+    pose = {
+        'default': 'default',
+        'hi': 'hi',
+        'hello': 'hello'
+    }
+    defaultPose = {
+        Pose: 'default'
+    }
+    gui.add(defaultPose, 'Pose', pose).listen().onChange(function (e) {
+        if(e == 'default'){
+            controls.reset()
+        }
+        if (e == 'hi') {
+            leg_right_down.position.set(0, 3.5, 3.347,)
+            leg_right_up.position.set(0, 8.5, 2,)
+            leg_left_down.position.set(-4.609, 3.854, -4.6,)
+            leg_left_up.position.set(-1.608, 8.854, -3.277,)
+            arm_right_down.position.set(0.023, 26.5, 3.723,)
+            arm_right_up.position.set(0, 21.155, 5,)
+            arm_left_down.position.set(0, 11.5, -6.631,)
+            arm_left_up.position.set(0, 16.5, -5,)
+            stomach.position.set(0.023, 15.192, -0.308,)
+            upperbody.position.set(0, 18, 0,)
+            neck.position.set(0, 20.5, 0,)
+            head.position.set(0, 23, 0,)
+            ROTATE(leg_right_down, 0, 0, 0)
+            ROTATE(leg_right_up, -0.549, 0, 0)
+            ROTATE(leg_left_down, 0.213, 0, 0)
+            ROTATE(leg_left_up, 0.28200000000000003, 0, -0.48)
+            ROTATE(arm_right_down, -0.549, 0, 0)
+            ROTATE(arm_right_up, 0.074, 0, 0)
+            ROTATE(arm_left_down, 0, 0, 0)
+            ROTATE(arm_left_up, 0.906, 0, 0)
+            ROTATE(stomach, 0.213, 0, 0)
+            ROTATE(upperbody, 0.213, 0, 0)
+            ROTATE(neck, 0, 0, 0)
+            ROTATE(head, -0.272, 0, 0)
+
+        }
+        if (e == 'hello') {
+            leg_right_down.position.set(0, 3.5, 2)
+            leg_right_up.position.set(0, 8.316, 2)
+            leg_left_down.position.set(-4.898, 3.5, -4.052)
+            leg_left_up.position.set(-1.868, 8.132, -3.194)
+            arm_right_down.position.set(0, 11.5, 5)
+            arm_right_up.position.set(0, 16.5, 5)
+            arm_left_down.position.set(0, 11.5, -5)
+            arm_left_up.position.set(0, 16.5, -5)
+            stomach.position.set(-1.378, 14.642, -0.184)
+            upperbody.position.set(0, 18, 0)
+            neck.position.set(1.499, 20.5, 0)
+            head.position.set(1.836, 23, 0)
+            ROTATE(leg_right_down, 0, 0, 0,)
+            ROTATE(leg_right_up, 0, 0, 0,)
+            ROTATE(leg_left_down, 0, 0, 0,)
+            ROTATE(leg_left_up, 0, -0.532, -0.603,)
+            ROTATE(arm_right_down, 0, 0, 0,)
+            ROTATE(arm_right_up, 0, 0, 0,)
+            ROTATE(arm_left_down, -0.744, 0, 0,)
+            ROTATE(arm_left_up, 0.9490000000000001, 0, 0,)
+            ROTATE(stomach, 0.10200000000000001, -0.25, 0.314,)
+            ROTATE(upperbody, 0, 0, -0.532,)
+            ROTATE(neck, 0, 0, -0.603,)
+            ROTATE(head, 0, 0, -0.603,)
+
+        }
+    });
+    var obj = {
+        pos: function () {
+            for (i of Man.children) {
+                console.log(i.name, i.position.x, i.position.y, i.position.z)
+
+
+                console.log(i.rotation.x, i.rotation.y, i.rotation.z)
+            }
+        }
+    }
+    gui.add(obj, 'pos').listen()
+    //console.log(scene.background)
+    scene.background = new THREE.Color(0xffffff);
+    controls2.background = scene.background.getStyle()
+    gui.addColor(controls2, "background").listen().onChange(
+        function (e) {
+
+
+            scene.background.setStyle(e);
+
+        }
+    )
+    controls2.name = 'brick'
+
+    var actionFolder = gui.addFolder('brick')
+    actionFolder.add(Man.selected.material, "metalness", 0, 1, 0.001)
+    actionFolder.add(Man.selected.material, "roughness", 0, 1, 0.001)
+
+
+    controls2.color = Man.selected.material.color.getStyle()
+    actionFolder.addColor(controls2, "color").listen().onChange(function (e) {
+        Man.selected.material.color.setStyle(e)
+    });
+    renderScene();
+    function renderScene() {
+        if (boxHelper)
+            boxHelper.update()
+        stats.update();
+        orbitControls.update();
+        camera.updateMatrixWorld();
+
+
+
+
+        requestAnimationFrame(renderScene);
+
+        renderer.render(scene, camera);
+    }
+
+    function onWindowResize() {
+
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+    }
+    function ROTATE(mesh, x, y, z) {
+        mesh.rotation.x = x
+        mesh.rotation.y = y
+        mesh.rotation.z = z
+
+    }
+    function MatLoad(e) {
+        texture = textureLoader.load(e)
         if (e == 'textures/general/brick-wall.jpg') {
 
             var mat = new THREE.MeshStandardMaterial(
@@ -616,230 +799,8 @@ function init() {
 
             controls2.name = 'lava'
         }
-        Man.selected.material = mat
-        console.log(mat)
-    });
-    controls2.name = 'brick'
-
-    var actionFolder = gui.addFolder('brick')
-    actionFolder.add(Man.selected.material, "metalness", 0, 1, 0.001)
-    actionFolder.add(Man.selected.material, "roughness", 0, 1, 0.001)
-
-
-    controls2.color = Man.selected.material.color.getStyle()
-    actionFolder.addColor(controls2, "color").listen().onChange(function (e) {
-        Man.selected.material.color.setStyle(e)
-    });
-    pose = {
-        'hi': 'hi',
-        'hello': 'hello'
+        return mat
     }
-    defaultPose = {
-        Pose: 'hi'
-    }
-    gui.add(defaultPose, 'Pose', pose).listen().onChange(function (e) {
-        if (e == 'hi') {
-            leg_right_down.position.set(0, 3.5, 3.347,)
-            leg_right_up.position.set(0, 8.5, 2,)
-            leg_left_down.position.set(-4.609, 3.854, -4.6,)
-            leg_left_up.position.set(-1.608, 8.854, -3.277,)
-            arm_right_down.position.set(0.023, 26.5, 3.723,)
-            arm_right_up.position.set(0, 21.155, 5,)
-            arm_left_down.position.set(0, 11.5, -6.631,)
-            arm_left_up.position.set(0, 16.5, -5,)
-            stomach.position.set(0.023, 15.192, -0.308,)
-            upperbody.position.set(0, 18, 0,)
-            neck.position.set(0, 20.5, 0,)
-            head.position.set(0, 23, 0,)
-            ROTATE(leg_right_down, 0, 0, 0)
-            ROTATE(leg_right_up, -0.549, 0, 0)
-            ROTATE(leg_left_down, 0.213, 0, 0)
-            ROTATE(leg_left_up, 0.28200000000000003, 0, -0.48)
-            ROTATE(arm_right_down, -0.549, 0, 0)
-            ROTATE(arm_right_up, 0.074, 0, 0)
-            ROTATE(arm_left_down, 0, 0, 0)
-            ROTATE(arm_left_up, 0.906, 0, 0)
-            ROTATE(stomach, 0.213, 0, 0)
-            ROTATE(upperbody, 0.213, 0, 0)
-            ROTATE(neck, 0, 0, 0)
-            ROTATE(head, -0.272, 0, 0)
-
-        }
-        if (e == 'hello') {
-            leg_right_down.position.set(0,  3.5,  2 )          
-            leg_right_up.position.set(0,  8.316,  2 )        
-            leg_left_down.position.set(-4.898,  3.5,  -4.052 )
-            leg_left_up.position.set(-1.868,  8.132,  -3.194)
-            arm_right_down.position.set(0,  11.5,  5 )         
-            arm_right_up.position.set(0,  16.5,  5 )         
-            arm_left_down.position.set(0,  11.5,  -5 )        
-            arm_left_up.position.set(0,  16.5,  -5 )        
-            stomach.position.set(-1.378,  14.642,  -0.184)
-            upperbody.position.set(0,  18,  0 )           
-            neck.position.set(1.499,  20.5,  0 )     
-            head.position.set(1.836,  23,  0 )       
-            ROTATE(leg_right_down,0, 0, 0, )
-            ROTATE(leg_right_up, 0, 0, 0, )
-            ROTATE(leg_left_down, 0, 0, 0, )
-            ROTATE(leg_left_up, 0, -0.532, -0.603, )
-            ROTATE(arm_right_down,0, 0, 0, )
-            ROTATE(arm_right_up,0, 0, 0, )
-            ROTATE(arm_left_down, -0.744, 0, 0, )
-            ROTATE(arm_left_up, 0.9490000000000001, 0, 0, )
-            ROTATE(stomach, 0.10200000000000001, -0.25, 0.314, )
-            ROTATE(upperbody, 0, 0, -0.532, )
-            ROTATE(neck,0, 0, -0.603, )
-            ROTATE(head,0, 0, -0.603, )
-
-        }
-    });
-    var obj = {
-        pos: function () {
-            for (i of Man.children) {
-                console.log(i.name,i.position.x,i.position.y,i.position.z)
-                
-
-                console.log(i.rotation.x,i.rotation.y,i.rotation.z)
-            }
-        }
-    }
-    gui.add(obj, 'pos').listen()
-    renderScene();
-    function renderScene() {
-        stats.update();
-        orbitControls.update();
-        camera.updateMatrixWorld();
-        if (selected) {
-
-            Man.selected.material.transparent = true
-            Man.selected.material.opacity = 0.3;
-            //Man.selected.rotation.x = controls.r_X
-            //Man.selected.rotation.y = controls.r_Y
-            //Man.selected.rotation.z = controls.r_Z
-
-            // Man.selected.position.x = controls.p_X
-            // Man.selected.position.y = controls.p_Y
-            // Man.selected.position.z = controls.p_Z
-            if (controls.wireframe) {
-                Man.selected.material.wireframe = true
-            }
-            else {
-                Man.selected.material.wireframe = false
-            }
-        }
-
-
-
-        requestAnimationFrame(renderScene);
-
-        renderer.render(scene, camera);
-    }
-    function addGeometry(scene, geom, name, texture, gui, controls) {
-        var mat = new THREE.MeshStandardMaterial(
-            {
-                map: texture,
-                metalness: 0.2,
-                roughness: 0.07
-            });
-        var mesh = new THREE.Mesh(geom, mat);
-        mesh.castShadow = true;
-
-        scene.add(mesh);
-        addBasicMaterialSettings(gui, controls, mat, name + '-THREE.Material');
-        addSpecificMaterialSettings(gui, controls, mat, name + '-THREE.MeshStandardMaterial');
-
-        return mesh;
-    };
-
-
-    function onWindowResize() {
-
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-
-        renderer.setSize(window.innerWidth, window.innerHeight);
-
-    }
-    function ROTATE(mesh, x, y, z) {
-        mesh.rotation.x = x
-        mesh.rotation.y = y
-        mesh.rotation.z = z
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
