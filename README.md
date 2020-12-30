@@ -11,6 +11,7 @@
 ### Exam2 model creating
 - use mouse to naviagte, select mesh and changing that meshe position and rotation within the panel from the GUI
 - press E to select
+- press Q to quickly apply material
 
 
 
@@ -29,11 +30,12 @@
 ### Exam2 model creating
 - selected mesh or mesh that under the pointer will have transparent material
 - you can move, rotate the whole model or just the  selected mesh
-- you can show individual wireframe or the whole mesh(but i leave it at if that material is already in wireframe mode, it will turn back to noraml, maybe i should add a tick box for it)
+- you can show individual wireframe or the whole mesh
 - you can select individual texture (but if you want to select the same, you have to change it then reselect due to .onchange(), i will find a way to work around that soon)
 - you can reset the whole thing for the model to be in it orginal form
 - selected's material have extra options and color picker
-
+- you can change background color
+- selected mesh will have a box helper applying to it, so it will be a bit easier to see
 
 ### exam1 model loading test
 ![exam1_1](https://github.com/hohaidangpro/three-js-se04-14/blob/main/exam2_model_creating/promote%20images/exam1_1.png?raw=true)
