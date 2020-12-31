@@ -12,6 +12,8 @@
 - use mouse to naviagte, select mesh and changing that meshe position and rotation within the panel from the GUI
 - press E to select
 - press Q to quickly apply material
+- you can download pose but only 1 at a time
+- you can load all the poses (input2.txt)but remeber to add a name and have the exact format
 
 
 
@@ -36,6 +38,7 @@
 - selected's material have extra options and color picker
 - you can change background color
 - selected mesh will have a box helper applying to it, so it will be a bit easier to see
+- somewhat save and load poses
 
 ### exam1 model loading test
 ![exam1_1](https://github.com/hohaidangpro/three-js-se04-14/blob/main/exam2_model_creating/promote%20images/exam1_1.png?raw=true)
