@@ -12,6 +12,8 @@
 - use mouse to naviagte, select mesh and changing that meshe position and rotation within the panel from the GUI
 - press E to select
 - press Q to quickly apply material
+- you can download pose but only 1 at a time
+- you can load all the poses (input2.txt)but remeber to add a name and have the exact format
 
 
 
