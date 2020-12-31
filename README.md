@@ -39,6 +39,7 @@
 - you can change background color
 - selected mesh will have a box helper applying to it, so it will be a bit easier to see
 - somewhat save and load poses
+- light control : position, shadow, intensity, reset postion
 
 ### exam1 model loading test
 ![exam1_1](https://github.com/hohaidangpro/three-js-se04-14/blob/main/exam2_model_creating/promote%20images/exam1_1.png?raw=true)
