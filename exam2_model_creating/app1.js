@@ -1,4 +1,3 @@
-
 function init() {
     const gui = new dat.GUI()
     var controls2 = {}
@@ -386,6 +385,11 @@ function init() {
             Man.selected = head
             Man.name = head.name
             var texture = textureLoader.load('general/brick-wall.jpg')
+            if (boxHelper)
+                scene.remove(boxHelper)
+            boxHelper = new THREE.BoxHelper(Man.selected);
+            boxHelper.material.color.set(0x33FFFF);
+            scene.add(boxHelper);
 
             for (i of Man.children) {
                 if (i instanceof THREE.Mesh) {
@@ -410,9 +414,9 @@ function init() {
             this.r_Y = 0
             this.r_Z = 0
 
-            this.p_X = 0
-            this.p_Y = 0
-            this.p_Z = 0
+            this.p_X = Man.selected.position.x
+            this.p_Y = Man.selected.position.y
+            this.p_Z = Man.selected.position.z
             this.rp_X = Man.selected.position.x
             this.rp_Y = Man.selected.position.y
             this.rp_Z = Man.selected.position.z
@@ -422,9 +426,9 @@ function init() {
         this.r_Y = 0
         this.r_Z = 0
 
-        this.p_X = 0
-        this.p_Y = 0
-        this.p_Z = 0
+        this.p_X = Man.selected.position.x
+        this.p_Y = Man.selected.position.y
+        this.p_Z = Man.selected.position.z
 
         this.rp_X = Man.selected.position.x
         this.rp_Y = Man.selected.position.y
@@ -441,9 +445,9 @@ function init() {
             this.rp_Y = Man.selected.position.y
             this.rp_Z = Man.selected.position.z
 
-            this.p_X = Man.selected.px
-            this.p_Y = Man.selected.py
-            this.p_Z = Man.selected.pz
+            this.p_X = Man.selected.position.x
+            this.p_Y = Man.selected.position.y
+            this.p_Z = Man.selected.position.z
 
             this.wireframe = Man.selected.material.wireframe
         }
@@ -460,19 +464,49 @@ function init() {
 
 
     const rotateFolder = gui.addFolder("rotate")
-    rotateFolder.add(Man.rotation, "x", -Math.PI, Math.PI, 0.001).listen();
-    rotateFolder.add(Man.rotation, "y", -Math.PI, Math.PI, 0.001).listen();
-    rotateFolder.add(Man.rotation, "z", -Math.PI, Math.PI, 0.001).listen();
+    rotateFolder.add(Man.rotation, "x", -Math.PI, Math.PI, 0.001).listen().onChange(e => {
+        if (boxHelper) {
+            boxHelper.update()
+        }
+    }
+    );
+    rotateFolder.add(Man.rotation, "y", -Math.PI, Math.PI, 0.001).listen().onChange(e => {
+        if (boxHelper) {
+            boxHelper.update()
+        }
+    }
+    );
+    rotateFolder.add(Man.rotation, "z", -Math.PI, Math.PI, 0.001).listen().onChange(e => {
+        if (boxHelper) {
+            boxHelper.update()
+        }
+    }
+    );
 
     const positionFolder = gui.addFolder("position")
-    positionFolder.add(Man.position, "x", -30, 30, 0.001).listen();
-    positionFolder.add(Man.position, "y", -30, 30, 0.001).listen();
-    positionFolder.add(Man.position, "z", -30, 30, 0.001).listen();
+    positionFolder.add(Man.position, "x", -30, 30, 0.001).listen().onChange(e => {
+        if (boxHelper) {
+            boxHelper.update()
+        }
+    }
+    );
+    positionFolder.add(Man.position, "y", -30, 30, 0.001).listen().onChange(e => {
+        if (boxHelper) {
+            boxHelper.update()
+        }
+    }
+    );
+    positionFolder.add(Man.position, "z", -30, 30, 0.001).listen().onChange(e => {
+        if (boxHelper) {
+            boxHelper.update()
+        }
+    }
+    );
 
     gui.add(controls, "totalwireframe").listen();
     gui.add(controls, "reset").listen();
     //gui.add(text).listen();
-    var dis = 15
+    var dis = 30
     const selectedFolder = gui.addFolder("selected")
     selectedFolder.add(controls, "r_X", -Math.PI, Math.PI, 0.001).listen().onChange(function (e) {
         Man.selected.rotation.x = controls.r_X
@@ -486,16 +520,16 @@ function init() {
     });
 
     selectedFolder.add(controls, "p_X", -dis, dis, 0.001).listen().onChange(function (e) {
-        Man.selected.px = e
-        Man.selected.position.x = e + controls.rp_X
+        //Man.selected.px = e
+        Man.selected.position.x = e //+ controls.rp_X
     });
     selectedFolder.add(controls, "p_Y", -dis, dis, 0.001).listen().onChange(function (e) {
-        Man.selected.px = e
-        Man.selected.position.y = e + controls.rp_Y
+        //Man.selected.px = e
+        Man.selected.position.y = e //+ controls.rp_Y
     });
     selectedFolder.add(controls, "p_Z", -dis, dis, 0.001).listen().onChange(function (e) {
-        Man.selected.px = e
-        Man.selected.position.z = e + controls.rp_Z
+        //Man.selected.px = e
+        Man.selected.position.z = e //+ controls.rp_Z
     });
     selectedFolder.add(controls, "wireframe").listen().onChange(function (e) {
         Man.selected.material.wireframe = controls.wireframe
@@ -532,76 +566,76 @@ function init() {
         console.log(mat)
     });
 
-    pose = {
-        'default': 
-            "\nleg_right_down 0 3.5 2 0 0 0"+
-            "\nleg_right_up 0 8.5 2 0 0 0"+
-            "\nleg_left_down 0 3.5 -2 0 0 0"+
-            "\nleg_left_up 0 8.5 -2 0 0 0"+
-            "\narm_right_down 0 11.5 5 0 0 0"+
-            "\narm_right_up 0 16.5 5 0 0 0"+
-            "\narm_left_down 0 11.5 -5 0 0 0"+
-            "\narm_left_up 0 16.5 -5 0 0 0"+
-            "\nstomach 0 15.5 0 0 0 0"+
-            "\nupperbody 0 18 0 0 0 0"+
-            "\nneck 0 20.5 0 0 0 0"+
+    var pose = {
+        'default':
+            "\nleg_right_down 0 3.5 2 0 0 0" +
+            "\nleg_right_up 0 8.5 2 0 0 0" +
+            "\nleg_left_down 0 3.5 -2 0 0 0" +
+            "\nleg_left_up 0 8.5 -2 0 0 0" +
+            "\narm_right_down 0 11.5 5 0 0 0" +
+            "\narm_right_up 0 16.5 5 0 0 0" +
+            "\narm_left_down 0 11.5 -5 0 0 0" +
+            "\narm_left_up 0 16.5 -5 0 0 0" +
+            "\nstomach 0 15.5 0 0 0 0" +
+            "\nupperbody 0 18 0 0 0 0" +
+            "\nneck 0 20.5 0 0 0 0" +
             "\nhead 0 23 0 0 0 0"
-            ,
-        'hi': 
-            "\nleg_right_down 0 3.5 3.347 0 0 0"+
-            "\nleg_right_up 0 8.5 2 -0.549 0 0"+
-            "\nleg_left_down -4.609 3.854 -4.6 0.213 0 0"+
-            "\nleg_left_up -1.608 8.854 -3.277 0.28200000000000003 0 -0.48"+
-            "\narm_right_down 0.023 26.5 3.723 -0.549 0 0"+
-            "\narm_right_up 0 21.155 5 0.074 0 0"+
-            "\narm_left_down 0 11.5 -6.631 0 0 0"+
-            "\narm_left_up 0 16.5 -5 0.906 0 0"+
-            "\nstomach 0.023 15.192 -0.308 0.213 0 0"+
-            "\nupperbody 0 18 0 0.213 0 0"+
-            "\nneck 0 20.5 0 0 0 0"+
+        ,
+        'hi':
+            "\nleg_right_down 0 3.5 3.347 0 0 0" +
+            "\nleg_right_up 0 8.5 2 -0.549 0 0" +
+            "\nleg_left_down -4.609 3.854 -4.6 0.213 0 0" +
+            "\nleg_left_up -1.608 8.854 -3.277 0.28200000000000003 0 -0.48" +
+            "\narm_right_down 0.023 26.5 3.723 -0.549 0 0" +
+            "\narm_right_up 0 21.155 5 0.074 0 0" +
+            "\narm_left_down 0 11.5 -6.631 0 0 0" +
+            "\narm_left_up 0 16.5 -5 0.906 0 0" +
+            "\nstomach 0.023 15.192 -0.308 0.213 0 0" +
+            "\nupperbody 0 18 0 0.213 0 0" +
+            "\nneck 0 20.5 0 0 0 0" +
             "\nhead 0 23 0 -0.272 0 0",
         'hello':
 
             "\nleg_right_down 0 3.5 2 0 0 0"+
-            "\nleg_right_up 0 8.316 2 0 0 0"+
-            "\nleg_left_down -4.898 3.5 -4.052 0 0 0"+
-            "\nleg_left_up -1.868 8.132 -3.194 0 -0.532 -0.603"+
-            "\narm_right_down 0 11.5 5 0 0 0"+
-            "\narm_right_up 0 16.5 5 0 0 0"+
-            "\narm_left_down 0 11.5 -5 -0.744 0 0"+
-            "\narm_left_up 0 16.5 -5 0.9490000000000001 0 0"+
-            "\nstomach -1.378 14.642 -0.184 0.10200000000000001 -0.25 0.314"+
-            "\nupperbody 0 18 0 0 0 -0.532"+
-            "\nneck 1.499 20.5 0 0 0 -0.603"+
-            "\nhead 1.836 23 0 0 0 -0.603"
+            "\nleg_right_up 0 8.5 2 0 0 0"+
+            "\nleg_left_down 0 3.5 -2 0 0 0"+
+            "\nleg_left_up 0 8.5 -2 0 0 0"+
+            "\narm_right_down -7.894 19.237000000000002 2.693 -0.8270000000000001 -0.272 0.14300000000000002"+
+            "\narm_right_up -4.586 17.251 5 -0.6880000000000001 0 -1.728"+
+            "\narm_left_down 0 11.5 -5 0 0 0"+
+            "\narm_left_up -1.939 16.5 -5 0 0 0.629"+
+            "\nstomach 0 15.5 0 0 0 0.14300000000000002"+
+            "\nupperbody -1.939 18 0 0.005 0 0.49"+
+            "\nneck -2.6 20.5 0 0 0 0.49"+
+            "\nhead -4.586 21.884 0 0.005 0.005 0.559"
     }
-    poseName = {
+    var poseName = {
         'default': 'default',
         'hi': 'hi',
         'hello': 'hello'
     }
-    defaultPose = {
+    var defaultPose = {
         Pose: 'default'
     }
 
-    gui.add(defaultPose, 'Pose', poseName).listen().onChange(function (e) {
-       
-            list = readText(pose[e])
-                
-            loadPose(list)                 
+    var controlPose = gui.add(defaultPose, 'Pose', poseName).listen().onChange(function (e) {
+
+        var list = readText(pose[e])
+
+        loadPose(list)
     });
     var text
     var obj = {
         pos: function () {
-            text =""
+            text = ""
             for (i of Man.children) {
-                text += "\n"+new String(i.name)+" "+ i.position.x.toString()+" "+ i.position.y.toString()+" "+ i.position.z.toString()+" "
-                text += new String (i.rotation.x)+" "+new String (i.rotation.y)+" "+new String (i.rotation.z)
+                text += "\n" + new String(i.name) + " " + i.position.x.toString() + " " + i.position.y.toString() + " " + i.position.z.toString() + " "
+                text += new String(i.rotation.x) + " " + new String(i.rotation.y) + " " + new String(i.rotation.z)
                 console.log(text)
                 //console.log(i.rotation.x, i.rotation.y, i.rotation.z )
                 //console.log(new String (i.rotation.x),new String (i.rotation.y),new String (i.rotation.z))
 
-                
+
             }
         }
     }
@@ -637,46 +671,72 @@ function init() {
     //        console.log(i);
     //    }
     //      });
-    
-    function loadPose(list){
+
+    function loadPose(list) {
         console.log(Man)
-        for (i of list){
+        for (i of list) {
+            console.log(i)
             var index
             //console.log(new String(i))
-            i= i.replace(/(\r\n|\n|\r|"   ")/gm, "");
+            i = i.replace(/(\r\n|\n|\r|"   ")/gm, "");
             index = i.split(" ")
-            for (k of Man.children){
-                if (k instanceof THREE.Mesh && k.name == index[0]){
-                    var myMesh = k
-                    console.log(myMesh)
-                    myMesh.position.set(index[1],index[2],index[3])
-                    ROTATE(myMesh,index[4],index[5],index[6])  
+            //console.log(Man)
+            for (k of Man.children) {
+                if (k.name == index[0]) {
+
+                    k.position.x = index[1]
+                    k.position.y = index[2]
+                    k.position.z = index[3]
+
+                    ROTATE(k, index[4], index[5], index[6])
+
                 }
+
             }
- 
+
         }
     }
-    function readText(e){
-    var list = []
-    var lines = e.split('\n');
-                for(var line = 0; line < lines.length; line++){
-                  //console.log(lines[line]);
-                  list.push(lines[line])
-                }
-                return list
+    function readText(e) {
+        var list = []
+        var lines = e.split('\n');
+        for (var line = 0; line < lines.length; line++) {
+            //console.log(lines[line]);
+            list.push(lines[line])
+        }
+        return list
+    }
+    function loadPoseFF(list) {
+
+        for (var i = 0; i < list.length-1; i = i + 13) {
+            poseName[list[i]] = list[i]
+            var st = ""
+            for (j = i+1; j < i+13; j++) {
+                st += "\n" + list[j]
+            }
+            pose[list[i]] = st
+        }
+        console.log(pose)
+        console.log(poseName)
+        gui.remove(controlPose)
+        controlPose = gui.add(defaultPose, 'Pose', poseName).listen().onChange(function (e) {
+
+            var list = readText(pose[e])
+
+            loadPose(list)
+        });
     }
     var controls3 = {
         read: function () {
-            
+
             const loader = new THREE.FileLoader();
             THREE.Cache.enabled = true;
-            loader.load('input.txt', e =>{
+            loader.load('input2.txt', e => {
                 //console.log(e)
-                list = readText(e)
-                
-                loadPose(list)   
+                var list = readText(e)
+
+                loadPoseFF(list)
             })
-            
+
 
         },
         download: function () {
@@ -685,19 +745,19 @@ function init() {
             var element = document.createElement('a');
             element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
             element.setAttribute('download', 'output.txt');
-          
+
             element.style.display = 'none';
             document.body.appendChild(element);
-          
+
             element.click();
-          
+
             document.body.removeChild(element);
-          }
+        }
 
     }
 
-    gui.add(controls3,'read')
-    gui.add(controls3,'download')
+    gui.add(controls3, 'read')
+    gui.add(controls3, 'download')
     renderScene();
     function renderScene() {
         if (boxHelper)
