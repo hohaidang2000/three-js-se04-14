@@ -58,10 +58,18 @@ function init() {
     spotLight.castShadow = true;
     scene.add(spotLight);
 
-    var controlsLight = new function(){
-        this.reset = function(){
-            spotLight.position.set(-40, 60, -10); 
-            spotLight.intensity = 1.2 
+    var controlsLight = new function () {
+        this.reset = function () {
+            spotLight.position.set(-40, 60, -10);
+            spotLight.intensity = 1.2
+        }
+        this.Shadow = function () {
+            if (spotLight.castShadow) {
+                spotLight.castShadow = false
+            }
+            else {
+                spotLight.castShadow = true
+            }
         }
     }
     const lightFolder = gui.addFolder("light")
@@ -69,6 +77,7 @@ function init() {
     lightFolder.add(spotLight.position, "y", 0, 120, 0.001).listen()
     lightFolder.add(spotLight.position, "z", -120, 70, 0.001).listen()
     lightFolder.add(spotLight, "intensity", 0, 2, 0.001).listen()
+    lightFolder.add(controlsLight, "Shadow").listen()
     lightFolder.add(controlsLight, "reset")
 
 
