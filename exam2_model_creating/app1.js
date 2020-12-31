@@ -533,6 +533,49 @@ function init() {
     });
 
     pose = {
+        'default': 
+            "\nleg_right_down 0 3.5 2 0 0 0"+
+            "\nleg_right_up 0 8.5 2 0 0 0"+
+            "\nleg_left_down 0 3.5 -2 0 0 0"+
+            "\nleg_left_up 0 8.5 -2 0 0 0"+
+            "\narm_right_down 0 11.5 5 0 0 0"+
+            "\narm_right_up 0 16.5 5 0 0 0"+
+            "\narm_left_down 0 11.5 -5 0 0 0"+
+            "\narm_left_up 0 16.5 -5 0 0 0"+
+            "\nstomach 0 15.5 0 0 0 0"+
+            "\nupperbody 0 18 0 0 0 0"+
+            "\nneck 0 20.5 0 0 0 0"+
+            "\nhead 0 23 0 0 0 0"
+            ,
+        'hi': 
+            "\nleg_right_down 0 3.5 3.347 0 0 0"+
+            "\nleg_right_up 0 8.5 2 -0.549 0 0"+
+            "\nleg_left_down -4.609 3.854 -4.6 0.213 0 0"+
+            "\nleg_left_up -1.608 8.854 -3.277 0.28200000000000003 0 -0.48"+
+            "\narm_right_down 0.023 26.5 3.723 -0.549 0 0"+
+            "\narm_right_up 0 21.155 5 0.074 0 0"+
+            "\narm_left_down 0 11.5 -6.631 0 0 0"+
+            "\narm_left_up 0 16.5 -5 0.906 0 0"+
+            "\nstomach 0.023 15.192 -0.308 0.213 0 0"+
+            "\nupperbody 0 18 0 0.213 0 0"+
+            "\nneck 0 20.5 0 0 0 0"+
+            "\nhead 0 23 0 -0.272 0 0",
+        'hello':
+
+            "\nleg_right_down 0 3.5 2 0 0 0"+
+            "\nleg_right_up 0 8.316 2 0 0 0"+
+            "\nleg_left_down -4.898 3.5 -4.052 0 0 0"+
+            "\nleg_left_up -1.868 8.132 -3.194 0 -0.532 -0.603"+
+            "\narm_right_down 0 11.5 5 0 0 0"+
+            "\narm_right_up 0 16.5 5 0 0 0"+
+            "\narm_left_down 0 11.5 -5 -0.744 0 0"+
+            "\narm_left_up 0 16.5 -5 0.9490000000000001 0 0"+
+            "\nstomach -1.378 14.642 -0.184 0.10200000000000001 -0.25 0.314"+
+            "\nupperbody 0 18 0 0 0 -0.532"+
+            "\nneck 1.499 20.5 0 0 0 -0.603"+
+            "\nhead 1.836 23 0 0 0 -0.603"
+    }
+    poseName = {
         'default': 'default',
         'hi': 'hi',
         'hello': 'hello'
@@ -540,105 +583,12 @@ function init() {
     defaultPose = {
         Pose: 'default'
     }
-    gui.add(defaultPose, 'Pose', pose).listen().onChange(function (e) {
-        if (e == 'default') {
-            for (i of Man.children) {
-                i.rotation.x = 0
-                i.rotation.y = 0
-                i.rotation.z = 0
-                i.position.y = 0
-                i.position.x = 0
-                i.position.z = 0
-            }
-            head.position.y = 23
 
-            neck.position.y = head.position.y - 2.5
-
-            upperbody.position.y = neck.position.y - 2.5
-
-            stomach.position.y = upperbody.position.y - 2.5
-
-
-            arm_left_up.position.z = upperbody.position.z - 5
-
-            arm_left_up.position.y = upperbody.position.y - 1.5
-
-            arm_left_down.position.z = arm_left_up.position.z
-            arm_left_down.position.y = arm_left_up.position.y - 5
-            arm_right_up.position.z = upperbody.position.z + 5
-
-            arm_right_up.position.y = upperbody.position.y - 1.5
-
-            arm_right_down.position.z = arm_right_up.position.z
-            arm_right_down.position.y = arm_right_up.position.y - 5
-            //
-            leg_left_up.position.z = upperbody.position.z - 2
-
-            leg_left_up.position.y = upperbody.position.y - 9.5
-
-            leg_left_down.position.z = leg_left_up.position.z
-            leg_left_down.position.y = leg_left_up.position.y - 5
-            leg_right_up.position.z = upperbody.position.z + 2
-
-            leg_right_up.position.y = upperbody.position.y - 9.5
-
-            leg_right_down.position.z = leg_right_up.position.z
-            leg_right_down.position.y = leg_right_up.position.y - 5
-        }
-        if (e == 'hi') {
-            leg_right_down.position.set(0, 3.5, 3.347,)
-            leg_right_up.position.set(0, 8.5, 2,)
-            leg_left_down.position.set(-4.609, 3.854, -4.6,)
-            leg_left_up.position.set(-1.608, 8.854, -3.277,)
-            arm_right_down.position.set(0.023, 26.5, 3.723,)
-            arm_right_up.position.set(0, 21.155, 5,)
-            arm_left_down.position.set(0, 11.5, -6.631,)
-            arm_left_up.position.set(0, 16.5, -5,)
-            stomach.position.set(0.023, 15.192, -0.308,)
-            upperbody.position.set(0, 18, 0,)
-            neck.position.set(0, 20.5, 0,)
-            head.position.set(0, 23, 0,)
-            ROTATE(leg_right_down, 0, 0, 0)
-            ROTATE(leg_right_up, -0.549, 0, 0)
-            ROTATE(leg_left_down, 0.213, 0, 0)
-            ROTATE(leg_left_up, 0.28200000000000003, 0, -0.48)
-            ROTATE(arm_right_down, -0.549, 0, 0)
-            ROTATE(arm_right_up, 0.074, 0, 0)
-            ROTATE(arm_left_down, 0, 0, 0)
-            ROTATE(arm_left_up, 0.906, 0, 0)
-            ROTATE(stomach, 0.213, 0, 0)
-            ROTATE(upperbody, 0.213, 0, 0)
-            ROTATE(neck, 0, 0, 0)
-            ROTATE(head, -0.272, 0, 0)
-
-        }
-        if (e == 'hello') {
-            leg_right_down.position.set(0, 3.5, 2)
-            leg_right_up.position.set(0, 8.316, 2)
-            leg_left_down.position.set(-4.898, 3.5, -4.052)
-            leg_left_up.position.set(-1.868, 8.132, -3.194)
-            arm_right_down.position.set(0, 11.5, 5)
-            arm_right_up.position.set(0, 16.5, 5)
-            arm_left_down.position.set(0, 11.5, -5)
-            arm_left_up.position.set(0, 16.5, -5)
-            stomach.position.set(-1.378, 14.642, -0.184)
-            upperbody.position.set(0, 18, 0)
-            neck.position.set(1.499, 20.5, 0)
-            head.position.set(1.836, 23, 0)
-            ROTATE(leg_right_down, 0, 0, 0,)
-            ROTATE(leg_right_up, 0, 0, 0,)
-            ROTATE(leg_left_down, 0, 0, 0,)
-            ROTATE(leg_left_up, 0, -0.532, -0.603,)
-            ROTATE(arm_right_down, 0, 0, 0,)
-            ROTATE(arm_right_up, 0, 0, 0,)
-            ROTATE(arm_left_down, -0.744, 0, 0,)
-            ROTATE(arm_left_up, 0.9490000000000001, 0, 0,)
-            ROTATE(stomach, 0.10200000000000001, -0.25, 0.314,)
-            ROTATE(upperbody, 0, 0, -0.532,)
-            ROTATE(neck, 0, 0, -0.603,)
-            ROTATE(head, 0, 0, -0.603,)
-
-        }
+    gui.add(defaultPose, 'Pose', poseName).listen().onChange(function (e) {
+       
+            list = readText(pose[e])
+                
+            loadPose(list)                 
     });
     var text
     var obj = {
@@ -706,18 +656,23 @@ function init() {
  
         }
     }
-    var controls3 = {
-        read: function () {
-            var list = []
-            const loader = new THREE.FileLoader();
-            THREE.Cache.enabled = true;
-            loader.load('input.txt', e =>{
-                //console.log(e)
-                var lines = e.split('\n');
+    function readText(e){
+    var list = []
+    var lines = e.split('\n');
                 for(var line = 0; line < lines.length; line++){
                   //console.log(lines[line]);
                   list.push(lines[line])
                 }
+                return list
+    }
+    var controls3 = {
+        read: function () {
+            
+            const loader = new THREE.FileLoader();
+            THREE.Cache.enabled = true;
+            loader.load('input.txt', e =>{
+                //console.log(e)
+                list = readText(e)
                 
                 loadPose(list)   
             })
