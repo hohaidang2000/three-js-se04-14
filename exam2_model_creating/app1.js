@@ -30,7 +30,7 @@ function init() {
     camera.position.z = 30;
     camera.lookAt(scene.position);
 
-    var axes = new THREE.AxisHelper(200);
+    var axes = new THREE.AxesHelper(200);
     scene.add(axes);
     // create the ground plane
     var planeGeometry = new THREE.PlaneGeometry(60, 40, 1, 1);
@@ -57,6 +57,20 @@ function init() {
     spotLight.position.set(-40, 60, -10);
     spotLight.castShadow = true;
     scene.add(spotLight);
+
+    var controlsLight = new function(){
+        this.reset = function(){
+            spotLight.position.set(-40, 60, -10); 
+            spotLight.intensity = 1.2 
+        }
+    }
+    const lightFolder = gui.addFolder("light")
+    lightFolder.add(spotLight.position, "x", -120, 70, 0.001).listen()
+    lightFolder.add(spotLight.position, "y", 0, 120, 0.001).listen()
+    lightFolder.add(spotLight.position, "z", -120, 70, 0.001).listen()
+    lightFolder.add(spotLight, "intensity", 0, 2, 0.001).listen()
+    lightFolder.add(controlsLight, "reset")
+
 
     var cubeGeometry = new THREE.PlaneGeometry(60, 40, 1, 1);
     var cubeMaterial = new THREE.MeshLambertMaterial({
@@ -435,6 +449,7 @@ function init() {
         this.rp_Z = Man.selected.position.z
 
 
+        this.axis = true
         this.wireframe = false
         this.new = function () {
             this.r_X = Man.selected.rotation.x
@@ -505,6 +520,17 @@ function init() {
 
     gui.add(controls, "totalwireframe").listen();
     gui.add(controls, "reset").listen();
+    gui.add(controls, 'axis').listen().onChange(e => {
+        if (e == false) {
+            scene.remove(axes)
+        }
+        if (e == true) {
+            axes = new THREE.AxesHelper(200);
+            scene.add(axes);
+            // create the ground plane
+
+        }
+    });
     //gui.add(text).listen();
     var dis = 30
     const selectedFolder = gui.addFolder("selected")
@@ -596,17 +622,17 @@ function init() {
             "\nhead 0 23 0 -0.272 0 0",
         'hello':
 
-            "\nleg_right_down 0 3.5 2 0 0 0"+
-            "\nleg_right_up 0 8.5 2 0 0 0"+
-            "\nleg_left_down 0 3.5 -2 0 0 0"+
-            "\nleg_left_up 0 8.5 -2 0 0 0"+
-            "\narm_right_down -7.894 19.237000000000002 2.693 -0.8270000000000001 -0.272 0.14300000000000002"+
-            "\narm_right_up -4.586 17.251 5 -0.6880000000000001 0 -1.728"+
-            "\narm_left_down 0 11.5 -5 0 0 0"+
-            "\narm_left_up -1.939 16.5 -5 0 0 0.629"+
-            "\nstomach 0 15.5 0 0 0 0.14300000000000002"+
-            "\nupperbody -1.939 18 0 0.005 0 0.49"+
-            "\nneck -2.6 20.5 0 0 0 0.49"+
+            "\nleg_right_down 0 3.5 2 0 0 0" +
+            "\nleg_right_up 0 8.5 2 0 0 0" +
+            "\nleg_left_down 0 3.5 -2 0 0 0" +
+            "\nleg_left_up 0 8.5 -2 0 0 0" +
+            "\narm_right_down -7.894 19.237000000000002 2.693 -0.8270000000000001 -0.272 0.14300000000000002" +
+            "\narm_right_up -4.586 17.251 5 -0.6880000000000001 0 -1.728" +
+            "\narm_left_down 0 11.5 -5 0 0 0" +
+            "\narm_left_up -1.939 16.5 -5 0 0 0.629" +
+            "\nstomach 0 15.5 0 0 0 0.14300000000000002" +
+            "\nupperbody -1.939 18 0 0.005 0 0.49" +
+            "\nneck -2.6 20.5 0 0 0 0.49" +
             "\nhead -4.586 21.884 0 0.005 0.005 0.559"
     }
     var poseName = {
@@ -707,10 +733,10 @@ function init() {
     }
     function loadPoseFF(list) {
 
-        for (var i = 0; i < list.length-1; i = i + 13) {
+        for (var i = 0; i < list.length - 1; i = i + 13) {
             poseName[list[i]] = list[i]
             var st = ""
-            for (j = i+1; j < i+13; j++) {
+            for (j = i + 1; j < i + 13; j++) {
                 st += "\n" + list[j]
             }
             pose[list[i]] = st
