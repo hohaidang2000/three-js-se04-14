@@ -72,13 +72,13 @@ function init() {
             }
         }
     }
-    const lightFolder = gui.addFolder("light")
-    lightFolder.add(spotLight.position, "x", -120, 70, 0.001).listen()
-    lightFolder.add(spotLight.position, "y", 0, 120, 0.001).listen()
-    lightFolder.add(spotLight.position, "z", -120, 70, 0.001).listen()
-    lightFolder.add(spotLight, "intensity", 0, 2, 0.001).listen()
-    lightFolder.add(controlsLight, "Shadow").listen()
-    lightFolder.add(controlsLight, "reset")
+    const lightFolder = gui.addFolder("light");
+    lightFolder.add(spotLight.position, "x", -120, 70, 0.001).listen();
+    lightFolder.add(spotLight.position, "y", 0, 120, 0.001).listen();
+    lightFolder.add(spotLight.position, "z", -120, 70, 0.001).listen();
+    lightFolder.add(spotLight, "intensity", 0, 2, 0.001).listen();
+    lightFolder.add(controlsLight, "Shadow").listen();
+    lightFolder.add(controlsLight, "reset");
 
 
     var cubeGeometry = new THREE.PlaneGeometry(60, 40, 1, 1);
@@ -90,7 +90,7 @@ function init() {
     var Man = new THREE.Object3D();
     var head, neck, upperbody, stomach, arm_left_up, arm_left_down,
         arm_right_up, arm_right_down, leg_left_up, leg_left_down,
-        leg_right_up, leg_right_down
+        leg_right_up, leg_right_down;
 
     let INTERSECTED;
 
@@ -149,9 +149,9 @@ function init() {
             leg_right_up,
             leg_right_down]);
         if (selected) selected.material.transparent = false;
-        selected = INTERSECTED
+        selected = INTERSECTED;
 
-        console.log(selected)
+        console.log(selected);
     }
     function onDocumentKeyDown(event) {
         var keyCode = event.which;
@@ -178,18 +178,18 @@ function init() {
                 leg_right_up,
                 leg_right_down]);
             if (selected) selected.material.transparent = false;
-            selected = INTERSECTED
-            Man.selected = selected
-            Man.name = selected.name
+            selected = INTERSECTED;
+            Man.selected = selected;
+            Man.name = selected.name;
 
             boxHelper = new THREE.BoxHelper(Man.selected);
             boxHelper.material.color.set(0x33FFFF);
             scene.add(boxHelper);
-            gui.removeFolder(controls2.name)
-            var mat = MatLoad(params.Mat)
-            Man.selected.material = mat
-            controls.new()
-            console.log(Man.selected)
+            gui.removeFolder(controls2.name);
+            var mat = MatLoad(params.Mat);
+            Man.selected.material = mat;
+            controls.new();
+            console.log(Man.selected);
         }
         if (keyCode == 69) {
 
@@ -213,16 +213,16 @@ function init() {
                 leg_right_up,
                 leg_right_down]);
             if (selected) selected.material.transparent = false;
-            selected = INTERSECTED
-            Man.selected = selected
-            Man.name = selected.name
+            selected = INTERSECTED;
+            Man.selected = selected;
+            Man.name = selected.name;
 
             boxHelper = new THREE.BoxHelper(Man.selected);
             boxHelper.material.color.set(0x33FFFF);
             scene.add(boxHelper);
 
-            controls.new()
-            console.log(Man.selected)
+            controls.new();
+            console.log(Man.selected);
         }
     }
 
@@ -238,108 +238,108 @@ function init() {
                     roughness: 0.07
                 });
             var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-            cube.name = i
-            cube.position.y += i + 2
-            cube.castShadow = true
-            cube.receiveShadow = true
-            cube.px = 0
-            cube.py = 0
+            cube.name = i;
+            cube.position.y += i + 2;
+            cube.castShadow = true;
+            cube.receiveShadow = true;
+            cube.px = 0;
+            cube.py = 0;
             cube.pz = 0
 
-            Man.add(cube)
+            Man.add(cube);
 
         }
 
 
-        scene.add(Man)
-        head = scene.getObjectByName(11)
-        neck = scene.getObjectByName(10)
+        scene.add(Man);
+        head = scene.getObjectByName(11);
+        neck = scene.getObjectByName(10);
 
-        upperbody = scene.getObjectByName(9)
-        stomach = scene.getObjectByName(8)
+        upperbody = scene.getObjectByName(9);
+        stomach = scene.getObjectByName(8);
 
-        arm_left_up = scene.getObjectByName(7)
-        arm_left_down = scene.getObjectByName(6)
-        arm_right_up = scene.getObjectByName(5)
-        arm_right_down = scene.getObjectByName(4)
+        arm_left_up = scene.getObjectByName(7);
+        arm_left_down = scene.getObjectByName(6);
+        arm_right_up = scene.getObjectByName(5);
+        arm_right_down = scene.getObjectByName(4);
 
-        leg_left_up = scene.getObjectByName(3)
-        leg_left_down = scene.getObjectByName(2)
-        leg_right_up = scene.getObjectByName(1)
-        leg_right_down = scene.getObjectByName(0)
+        leg_left_up = scene.getObjectByName(3);
+        leg_left_down = scene.getObjectByName(2);
+        leg_right_up = scene.getObjectByName(1);
+        leg_right_down = scene.getObjectByName(0);
 
-        head.name = "head"
-        neck.name = "neck"
-        upperbody.name = "upperbody"
-        stomach.name = "stomach"
-        arm_left_up.name = "arm_left_up"
-        arm_left_down.name = "arm_left_down"
-        arm_right_up.name = "arm_right_up"
-        arm_right_down.name = "arm_right_down"
-        leg_left_up.name = "leg_left_up"
-        leg_left_down.name = "leg_left_down"
-        leg_right_up.name = "leg_right_up"
-        leg_right_down.name = "leg_right_down"
+        head.name = "head";
+        neck.name = "neck";
+        upperbody.name = "upperbody";
+        stomach.name = "stomach";
+        arm_left_up.name = "arm_left_up";
+        arm_left_down.name = "arm_left_down";
+        arm_right_up.name = "arm_right_up";
+        arm_right_down.name = "arm_right_down";
+        leg_left_up.name = "leg_left_up";
+        leg_left_down.name = "leg_left_down";
+        leg_right_up.name = "leg_right_up";
+        leg_right_down.name = "leg_right_down";
 
 
-        Man.selected = head
-        Man.name = head.name
+        Man.selected = head;
+        Man.name = head.name;
 
         boxHelper = new THREE.BoxHelper(Man.selected);
         boxHelper.material.color.set(0x33FFFF);
         scene.add(boxHelper);
 
-        x = 0.9
-        y = x - 0.5
-        head.scale.set(x, x, x)
-        head.position.y += 10
-        neck.position.y = head.position.y - 2.5
-        neck.scale.set(y, y, y)
+        x = 0.9;
+        y = x - 0.5;
+        head.scale.set(x, x, x);
+        head.position.y += 10;
+        neck.position.y = head.position.y - 2.5;
+        neck.scale.set(y, y, y);
 
-        upperbody.scale.set(1, 1, 2)
-        upperbody.position.y = neck.position.y - 2.5
+        upperbody.scale.set(1, 1, 2);
+        upperbody.position.y = neck.position.y - 2.5;
 
-        stomach.position.y = upperbody.position.y - 2.5
-        stomach.scale.set(0.8, -2, 1.5)
+        stomach.position.y = upperbody.position.y - 2.5;
+        stomach.scale.set(0.8, -2, 1.5);
 
-        arm_left_up.position.z = upperbody.position.z - 5
-        arm_left_up.scale.set(-0.6, 1.5, -0.6)
-        arm_left_up.position.y = upperbody.position.y - 1.5
+        arm_left_up.position.z = upperbody.position.z - 5;
+        arm_left_up.scale.set(-0.6, 1.5, -0.6);
+        arm_left_up.position.y = upperbody.position.y - 1.5;
 
-        arm_left_down.scale.set(-0.5, 1.5, -0.5)
-        arm_left_down.position.z = arm_left_up.position.z
-        arm_left_down.position.y = arm_left_up.position.y - 5
+        arm_left_down.scale.set(-0.5, 1.5, -0.5);
+        arm_left_down.position.z = arm_left_up.position.z;
+        arm_left_down.position.y = arm_left_up.position.y - 5;
 
-        arm_right_up.position.z = upperbody.position.z + 5
-        arm_right_up.scale.set(-0.6, 1.5, -0.6)
-        arm_right_up.position.y = upperbody.position.y - 1.5
+        arm_right_up.position.z = upperbody.position.z + 5;
+        arm_right_up.scale.set(-0.6, 1.5, -0.6);
+        arm_right_up.position.y = upperbody.position.y - 1.5;
 
-        arm_right_down.scale.set(-0.5, 1.5, -0.5)
-        arm_right_down.position.z = arm_right_up.position.z
-        arm_right_down.position.y = arm_right_up.position.y - 5
+        arm_right_down.scale.set(-0.5, 1.5, -0.5);
+        arm_right_down.position.z = arm_right_up.position.z;
+        arm_right_down.position.y = arm_right_up.position.y - 5;
 
         //
-        leg_left_up.position.z = upperbody.position.z - 2
-        leg_left_up.scale.set(-0.6, 1.5, -0.6)
-        leg_left_up.position.y = upperbody.position.y - 9.5
+        leg_left_up.position.z = upperbody.position.z - 2;
+        leg_left_up.scale.set(-0.6, 1.5, -0.6);
+        leg_left_up.position.y = upperbody.position.y - 9.5;
 
-        leg_left_down.scale.set(-0.5, 1.5, -0.5)
-        leg_left_down.position.z = leg_left_up.position.z
-        leg_left_down.position.y = leg_left_up.position.y - 5
+        leg_left_down.scale.set(-0.5, 1.5, -0.5);
+        leg_left_down.position.z = leg_left_up.position.z;
+        leg_left_down.position.y = leg_left_up.position.y - 5;
 
-        leg_right_up.position.z = upperbody.position.z + 2
-        leg_right_up.scale.set(-0.6, 1.5, -0.6)
-        leg_right_up.position.y = upperbody.position.y - 9.5
+        leg_right_up.position.z = upperbody.position.z + 2;
+        leg_right_up.scale.set(-0.6, 1.5, -0.6);
+        leg_right_up.position.y = upperbody.position.y - 9.5;
 
-        leg_right_down.scale.set(-0.5, 1.5, -0.5)
-        leg_right_down.position.z = leg_right_up.position.z
-        leg_right_down.position.y = leg_right_up.position.y - 5
+        leg_right_down.scale.set(-0.5, 1.5, -0.5);
+        leg_right_down.position.z = leg_right_up.position.z;
+        leg_right_down.position.y = leg_right_up.position.y - 5;
 
     }
     createMan();
 
     console.log(Man);
-    Man.position.y -= 0.5
+    Man.position.y -= 0.5;
 
 
     var controls = new function () {
@@ -348,68 +348,68 @@ function init() {
 
             for (i of Man.children) {
                 if (i.material.wireframe) {
-                    i.material.wireframe = false
+                    i.material.wireframe = false;
                 }
-                else i.material.wireframe = true
+                else i.material.wireframe = true;
             }
         }
         this.nowireframe = function () {
             for (i of Man.children) {
-                i.material.wireframe = false
+                i.material.wireframe = false;
             }
         }
         this.reset = function () {
             if (Man.selected)
-                Man.selected.material.transparent = false
+                Man.selected.material.transparent = false;
             for (i of Man.children) {
-                i.rotation.x = 0
-                i.rotation.y = 0
-                i.rotation.z = 0
-                i.position.y = 0
-                i.position.x = 0
-                i.position.z = 0
+                i.rotation.x = 0;
+                i.rotation.y = 0;
+                i.rotation.z = 0;
+                i.position.y = 0;
+                i.position.x = 0;
+                i.position.z = 0;
             }
-            head.position.y = 23
+            head.position.y = 23;
 
-            neck.position.y = head.position.y - 2.5
+            neck.position.y = head.position.y - 2.5;
 
-            upperbody.position.y = neck.position.y - 2.5
+            upperbody.position.y = neck.position.y - 2.5;
 
-            stomach.position.y = upperbody.position.y - 2.5
+            stomach.position.y = upperbody.position.y - 2.5;
 
 
-            arm_left_up.position.z = upperbody.position.z - 5
+            arm_left_up.position.z = upperbody.position.z - 5;
 
-            arm_left_up.position.y = upperbody.position.y - 1.5
+            arm_left_up.position.y = upperbody.position.y - 1.5;
 
-            arm_left_down.position.z = arm_left_up.position.z
-            arm_left_down.position.y = arm_left_up.position.y - 5
-            arm_right_up.position.z = upperbody.position.z + 5
+            arm_left_down.position.z = arm_left_up.position.z;
+            arm_left_down.position.y = arm_left_up.position.y - 5;
+            arm_right_up.position.z = upperbody.position.z + 5;
 
-            arm_right_up.position.y = upperbody.position.y - 1.5
+            arm_right_up.position.y = upperbody.position.y - 1.5;
 
-            arm_right_down.position.z = arm_right_up.position.z
-            arm_right_down.position.y = arm_right_up.position.y - 5
+            arm_right_down.position.z = arm_right_up.position.z;
+            arm_right_down.position.y = arm_right_up.position.y - 5;
             //
-            leg_left_up.position.z = upperbody.position.z - 2
+            leg_left_up.position.z = upperbody.position.z - 2;
 
-            leg_left_up.position.y = upperbody.position.y - 9.5
+            leg_left_up.position.y = upperbody.position.y - 9.5;
 
-            leg_left_down.position.z = leg_left_up.position.z
-            leg_left_down.position.y = leg_left_up.position.y - 5
-            leg_right_up.position.z = upperbody.position.z + 2
+            leg_left_down.position.z = leg_left_up.position.z;
+            leg_left_down.position.y = leg_left_up.position.y - 5;
+            leg_right_up.position.z = upperbody.position.z + 2;
 
-            leg_right_up.position.y = upperbody.position.y - 9.5
+            leg_right_up.position.y = upperbody.position.y - 9.5;
 
-            leg_right_down.position.z = leg_right_up.position.z
-            leg_right_down.position.y = leg_right_up.position.y - 5
+            leg_right_down.position.z = leg_right_up.position.z;
+            leg_right_down.position.y = leg_right_up.position.y - 5;
 
-            selected = head
-            Man.selected = head
-            Man.name = head.name
-            var texture = textureLoader.load('general/brick-wall.jpg')
+            selected = head;
+            Man.selected = head;
+            Man.name = head.name;
+            var texture = textureLoader.load('general/brick-wall.jpg');
             if (boxHelper)
-                scene.remove(boxHelper)
+                scene.remove(boxHelper);
             boxHelper = new THREE.BoxHelper(Man.selected);
             boxHelper.material.color.set(0x33FFFF);
             scene.add(boxHelper);
@@ -422,58 +422,58 @@ function init() {
                             metalness: 0.2,
                             roughness: 0.07
                         });
-                    i.material = cubeMaterial
-                    i.material.transparent = false
+                    i.material = cubeMaterial;
+                    i.material.transparent = false;
                 }
-            }
-            Man.position.x = 0
-            Man.position.y = -0.5
-            Man.position.z = 0
-            Man.rotation.x = 0
-            Man.rotation.y = 0
-            Man.rotation.z = 0
+            };
+            Man.position.x = 0;
+            Man.position.y = -0.5;
+            Man.position.z = 0;
+            Man.rotation.x = 0;
+            Man.rotation.y = 0;
+            Man.rotation.z = 0;
 
-            this.r_X = 0
-            this.r_Y = 0
-            this.r_Z = 0
+            this.r_X = 0;
+            this.r_Y = 0;
+            this.r_Z = 0;
 
-            this.p_X = Man.selected.position.x
-            this.p_Y = Man.selected.position.y
-            this.p_Z = Man.selected.position.z
-            this.rp_X = Man.selected.position.x
-            this.rp_Y = Man.selected.position.y
-            this.rp_Z = Man.selected.position.z
+            this.p_X = Man.selected.position.x;
+            this.p_Y = Man.selected.position.y;
+            this.p_Z = Man.selected.position.z;
+            this.rp_X = Man.selected.position.x;
+            this.rp_Y = Man.selected.position.y;
+            this.rp_Z = Man.selected.position.z;
 
         }
-        this.r_X = 0
-        this.r_Y = 0
-        this.r_Z = 0
+        this.r_X = 0;
+        this.r_Y = 0;
+        this.r_Z = 0;
 
-        this.p_X = Man.selected.position.x
-        this.p_Y = Man.selected.position.y
-        this.p_Z = Man.selected.position.z
+        this.p_X = Man.selected.position.x;
+        this.p_Y = Man.selected.position.y;
+        this.p_Z = Man.selected.position.z;
 
-        this.rp_X = Man.selected.position.x
-        this.rp_Y = Man.selected.position.y
-        this.rp_Z = Man.selected.position.z
+        this.rp_X = Man.selected.position.x;
+        this.rp_Y = Man.selected.position.y;
+        this.rp_Z = Man.selected.position.z;
 
 
-        this.axis = true
-        this.wireframe = false
+        this.axis = true;
+        this.wireframe = false;
         this.new = function () {
-            this.r_X = Man.selected.rotation.x
-            this.r_Y = Man.selected.rotation.y
-            this.r_Z = Man.selected.rotation.z
+            this.r_X = Man.selected.rotation.x;
+            this.r_Y = Man.selected.rotation.y;
+            this.r_Z = Man.selected.rotation.z;
 
-            this.rp_X = Man.selected.position.x
-            this.rp_Y = Man.selected.position.y
-            this.rp_Z = Man.selected.position.z
+            this.rp_X = Man.selected.position.x;
+            this.rp_Y = Man.selected.position.y;
+            this.rp_Z = Man.selected.position.z;
 
-            this.p_X = Man.selected.position.x
-            this.p_Y = Man.selected.position.y
-            this.p_Z = Man.selected.position.z
+            this.p_X = Man.selected.position.x;
+            this.p_Y = Man.selected.position.y;
+            this.p_Z = Man.selected.position.z;
 
-            this.wireframe = Man.selected.material.wireframe
+            this.wireframe = Man.selected.material.wireframe;
         }
 
 
@@ -490,19 +490,19 @@ function init() {
     const rotateFolder = gui.addFolder("rotate")
     rotateFolder.add(Man.rotation, "x", -Math.PI, Math.PI, 0.001).listen().onChange(e => {
         if (boxHelper) {
-            boxHelper.update()
+            boxHelper.update();
         }
     }
     );
     rotateFolder.add(Man.rotation, "y", -Math.PI, Math.PI, 0.001).listen().onChange(e => {
         if (boxHelper) {
-            boxHelper.update()
+            boxHelper.update();
         }
     }
     );
     rotateFolder.add(Man.rotation, "z", -Math.PI, Math.PI, 0.001).listen().onChange(e => {
         if (boxHelper) {
-            boxHelper.update()
+            boxHelper.update();
         }
     }
     );
@@ -510,19 +510,19 @@ function init() {
     const positionFolder = gui.addFolder("position")
     positionFolder.add(Man.position, "x", -30, 30, 0.001).listen().onChange(e => {
         if (boxHelper) {
-            boxHelper.update()
+            boxHelper.update();
         }
     }
     );
     positionFolder.add(Man.position, "y", -30, 30, 0.001).listen().onChange(e => {
         if (boxHelper) {
-            boxHelper.update()
+            boxHelper.update();
         }
     }
     );
     positionFolder.add(Man.position, "z", -30, 30, 0.001).listen().onChange(e => {
         if (boxHelper) {
-            boxHelper.update()
+            boxHelper.update();
         }
     }
     );
@@ -531,7 +531,7 @@ function init() {
     gui.add(controls, "reset").listen();
     gui.add(controls, 'axis').listen().onChange(e => {
         if (e == false) {
-            scene.remove(axes)
+            scene.remove(axes);
         }
         if (e == true) {
             axes = new THREE.AxesHelper(200);
@@ -544,30 +544,30 @@ function init() {
     var dis = 30
     const selectedFolder = gui.addFolder("selected")
     selectedFolder.add(controls, "r_X", -Math.PI, Math.PI, 0.001).listen().onChange(function (e) {
-        Man.selected.rotation.x = controls.r_X
+        Man.selected.rotation.x = controls.r_X;
 
     });
     selectedFolder.add(controls, "r_Y", -Math.PI, Math.PI, 0.001).listen().onChange(function (e) {
-        Man.selected.rotation.y = controls.r_Y
+        Man.selected.rotation.y = controls.r_Y;
     });
     selectedFolder.add(controls, "r_Z", -Math.PI, Math.PI, 0.001).listen().onChange(function (e) {
-        Man.selected.rotation.z = controls.r_Z
+        Man.selected.rotation.z = controls.r_Z;
     });
 
     selectedFolder.add(controls, "p_X", -dis, dis, 0.001).listen().onChange(function (e) {
         //Man.selected.px = e
-        Man.selected.position.x = e //+ controls.rp_X
+        Man.selected.position.x = e ;//+ controls.rp_X
     });
     selectedFolder.add(controls, "p_Y", -dis, dis, 0.001).listen().onChange(function (e) {
         //Man.selected.px = e
-        Man.selected.position.y = e //+ controls.rp_Y
+        Man.selected.position.y = e ;//+ controls.rp_Y
     });
     selectedFolder.add(controls, "p_Z", -dis, dis, 0.001).listen().onChange(function (e) {
         //Man.selected.px = e
-        Man.selected.position.z = e //+ controls.rp_Z
+        Man.selected.position.z = e ;//+ controls.rp_Z
     });
     selectedFolder.add(controls, "wireframe").listen().onChange(function (e) {
-        Man.selected.material.wireframe = controls.wireframe
+        Man.selected.material.wireframe = controls.wireframe;
     })
     gui.add(Man, "name").listen();
 
@@ -591,14 +591,14 @@ function init() {
 
 
     gui.add(params, 'Mat', speciesList).listen().onChange(e => {
-        console.log(e)
+        console.log(e);
 
-        gui.removeFolder(controls2.name)
-        var mat = MatLoad(e)
+        gui.removeFolder(controls2.name);
+        var mat = MatLoad(e);
 
 
-        Man.selected.material = mat
-        console.log(mat)
+        Man.selected.material = mat;
+        console.log(mat);
     });
 
     var pose = {
@@ -643,41 +643,41 @@ function init() {
             "\nupperbody -1.939 18 0 0.005 0 0.49" +
             "\nneck -2.6 20.5 0 0 0 0.49" +
             "\nhead -4.586 21.884 0 0.005 0.005 0.559"
-    }
+    };
     var poseName = {
         'default': 'default',
         'hi': 'hi',
         'hello': 'hello'
-    }
+    };
     var defaultPose = {
         Pose: 'default'
-    }
+    };
 
     var controlPose = gui.add(defaultPose, 'Pose', poseName).listen().onChange(function (e) {
 
-        var list = readText(pose[e])
+        var list = readText(pose[e]);
 
-        loadPose(list)
+        loadPose(list);
     });
-    var text
+    var text;
     var obj = {
         pos: function () {
-            text = ""
+            text = "";
             for (i of Man.children) {
-                text += "\n" + new String(i.name) + " " + i.position.x.toString() + " " + i.position.y.toString() + " " + i.position.z.toString() + " "
-                text += new String(i.rotation.x) + " " + new String(i.rotation.y) + " " + new String(i.rotation.z)
-                console.log(text)
+                text += "\n" + new String(i.name) + " " + i.position.x.toString() + " " + i.position.y.toString() + " " + i.position.z.toString() + " ";
+                text += new String(i.rotation.x) + " " + new String(i.rotation.y) + " " + new String(i.rotation.z);
+                console.log(text);
                 //console.log(i.rotation.x, i.rotation.y, i.rotation.z )
                 //console.log(new String (i.rotation.x),new String (i.rotation.y),new String (i.rotation.z))
 
 
             }
         }
-    }
-    gui.add(obj, 'pos').listen()
+    };
+    gui.add(obj, 'pos').listen();
     //console.log(scene.background)
     scene.background = new THREE.Color(0xffffff);
-    controls2.background = scene.background.getStyle()
+    controls2.background = scene.background.getStyle();
     gui.addColor(controls2, "background").listen().onChange(
         function (e) {
 
@@ -685,17 +685,17 @@ function init() {
             scene.background.setStyle(e);
 
         }
-    )
-    controls2.name = 'brick'
+    );
+    controls2.name = 'brick';
 
-    var actionFolder = gui.addFolder('brick')
-    actionFolder.add(Man.selected.material, "metalness", 0, 1, 0.001)
-    actionFolder.add(Man.selected.material, "roughness", 0, 1, 0.001)
+    var actionFolder = gui.addFolder('brick');
+    actionFolder.add(Man.selected.material, "metalness", 0, 1, 0.001);
+    actionFolder.add(Man.selected.material, "roughness", 0, 1, 0.001);
 
 
-    controls2.color = Man.selected.material.color.getStyle()
+    controls2.color = Man.selected.material.color.getStyle();
     actionFolder.addColor(controls2, "color").listen().onChange(function (e) {
-        Man.selected.material.color.setStyle(e)
+        Man.selected.material.color.setStyle(e);
     });
 
 
@@ -710,20 +710,20 @@ function init() {
     function loadPose(list) {
         console.log(Man)
         for (i of list) {
-            console.log(i)
-            var index
+            console.log(i);
+            var index;
             //console.log(new String(i))
             i = i.replace(/(\r\n|\n|\r|"   ")/gm, "");
-            index = i.split(" ")
+            index = i.split(" ");
             //console.log(Man)
             for (k of Man.children) {
                 if (k.name == index[0]) {
 
-                    k.position.x = index[1]
-                    k.position.y = index[2]
-                    k.position.z = index[3]
+                    k.position.x = index[1];
+                    k.position.y = index[2];
+                    k.position.z = index[3];
 
-                    ROTATE(k, index[4], index[5], index[6])
+                    ROTATE(k, index[4], index[5], index[6]);
 
                 }
 
@@ -732,32 +732,32 @@ function init() {
         }
     }
     function readText(e) {
-        var list = []
+        var list = [];
         var lines = e.split('\n');
         for (var line = 0; line < lines.length; line++) {
             //console.log(lines[line]);
-            list.push(lines[line])
+            list.push(lines[line]);
         }
-        return list
+        return list;
     }
     function loadPoseFF(list) {
 
         for (var i = 0; i < list.length - 1; i = i + 13) {
-            poseName[list[i]] = list[i]
-            var st = ""
+            poseName[list[i]] = list[i];
+            var st = "";
             for (j = i + 1; j < i + 13; j++) {
-                st += "\n" + list[j]
+                st += "\n" + list[j];
             }
-            pose[list[i]] = st
+            pose[list[i]] = st;
         }
-        console.log(pose)
-        console.log(poseName)
-        gui.remove(controlPose)
+        console.log(pose);
+        console.log(poseName);
+        gui.remove(controlPose);
         controlPose = gui.add(defaultPose, 'Pose', poseName).listen().onChange(function (e) {
 
-            var list = readText(pose[e])
+            var list = readText(pose[e]);
 
-            loadPose(list)
+            loadPose(list);
         });
     }
     var controls3 = {
@@ -767,16 +767,16 @@ function init() {
             THREE.Cache.enabled = true;
             loader.load('input2.txt', e => {
                 //console.log(e)
-                var list = readText(e)
+                var list = readText(e);
 
-                loadPoseFF(list)
+                loadPoseFF(list);
             })
 
 
         },
         download: function () {
-            obj.pos()
-            console.log(text)
+            obj.pos();
+            console.log(text);
             var element = document.createElement('a');
             element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
             element.setAttribute('download', 'output.txt');
@@ -791,12 +791,12 @@ function init() {
 
     }
 
-    gui.add(controls3, 'read')
-    gui.add(controls3, 'download')
+    gui.add(controls3, 'read');
+    gui.add(controls3, 'download');
     renderScene();
     function renderScene() {
         if (boxHelper)
-            boxHelper.update()
+            boxHelper.update();
         stats.update();
         orbitControls.update();
         camera.updateMatrixWorld();
@@ -818,13 +818,13 @@ function init() {
 
     }
     function ROTATE(mesh, x, y, z) {
-        mesh.rotation.x = x
-        mesh.rotation.y = y
-        mesh.rotation.z = z
+        mesh.rotation.x = x;
+        mesh.rotation.y = y;
+        mesh.rotation.z = z;
 
     }
     function MatLoad(e) {
-        texture = textureLoader.load(e)
+        texture = textureLoader.load(e);
         if (e == 'textures/general/brick-wall.jpg') {
 
             var mat = new THREE.MeshStandardMaterial(
@@ -833,16 +833,16 @@ function init() {
                     metalness: 0.2,
                     roughness: 0.07
                 });
-            var actionFolder = gui.addFolder('brick')
-            actionFolder.add(mat, "metalness", 0, 1, 0.001).listen()
-            actionFolder.add(mat, "roughness", 0, 1, 0.001).listen()
+            var actionFolder = gui.addFolder('brick');
+            actionFolder.add(mat, "metalness", 0, 1, 0.001).listen();
+            actionFolder.add(mat, "roughness", 0, 1, 0.001).listen();
             controls2.color = mat.color.getStyle();
 
             actionFolder.addColor(controls2, "color").listen().onChange(function (e) {
-                mat.color.setStyle(e)
+                mat.color.setStyle(e);
             });
 
-            controls2.name = 'brick'
+            controls2.name = 'brick';
 
         }
         if (e == 'textures/general/metal-floor.jpg') {
@@ -853,16 +853,16 @@ function init() {
                     roughness: 0.07,
                     normalMap: textureLoader.load('textures/general/metal-floor-normal.jpg')
                 });
-            var actionFolder = gui.addFolder('metal')
-            actionFolder.add(mat, "metalness", 0, 1, 0.001).listen()
-            actionFolder.add(mat, "roughness", 0, 1, 0.001).listen()
+            var actionFolder = gui.addFolder('metal');
+            actionFolder.add(mat, "metalness", 0, 1, 0.001).listen();
+            actionFolder.add(mat, "roughness", 0, 1, 0.001).listen();
             controls2.color = mat.color.getStyle();
 
             actionFolder.addColor(controls2, "color").listen().onChange(function (e) {
-                mat.color.setStyle(e)
+                mat.color.setStyle(e);
             });
 
-            controls2.name = 'metal'
+            controls2.name = 'metal';
 
 
         }
@@ -874,16 +874,16 @@ function init() {
                     roughness: 0.07,
                     bumpMap: textureLoader.load('textures/general/weave-bump.jpg')
                 });
-            var actionFolder = gui.addFolder('weave')
-            actionFolder.add(mat, "metalness", 0, 1, 0.001).listen()
-            actionFolder.add(mat, "roughness", 0, 1, 0.001).listen()
+            var actionFolder = gui.addFolder('weave');
+            actionFolder.add(mat, "metalness", 0, 1, 0.001).listen();
+            actionFolder.add(mat, "roughness", 0, 1, 0.001).listen();
             controls2.color = mat.color.getStyle();
 
             actionFolder.addColor(controls2, "color").listen().onChange(function (e) {
-                mat.color.setStyle(e)
+                mat.color.setStyle(e);
             });
 
-            controls2.name = 'weave'
+            controls2.name = 'weave';
 
 
         }
@@ -895,16 +895,16 @@ function init() {
                     roughness: 0.07,
                     normalMap: textureLoader.load('textures/general/plaster-normal.jpg')
                 });
-            var actionFolder = gui.addFolder('plaster')
-            actionFolder.add(mat, "metalness", 0, 1, 0.001).listen()
-            actionFolder.add(mat, "roughness", 0, 1, 0.001).listen()
+            var actionFolder = gui.addFolder('plaster');
+            actionFolder.add(mat, "metalness", 0, 1, 0.001).listen();
+            actionFolder.add(mat, "roughness", 0, 1, 0.001).listen();
             controls2.color = mat.color.getStyle();
 
             actionFolder.addColor(controls2, "color").listen().onChange(function (e) {
-                mat.color.setStyle(e)
+                mat.color.setStyle(e);
             });
 
-            controls2.name = 'plaster'
+            controls2.name = 'plaster';
 
 
 
@@ -917,16 +917,16 @@ function init() {
                     roughness: 0.07,
                     bumpMap: textureLoader.load('textures/general/bathroom-normal.jpg')
                 });
-            var actionFolder = gui.addFolder('bathroom')
-            actionFolder.add(mat, "metalness", 0, 1, 0.001).listen()
-            actionFolder.add(mat, "roughness", 0, 1, 0.001).listen()
+            var actionFolder = gui.addFolder('bathroom');
+            actionFolder.add(mat, "metalness", 0, 1, 0.001).listen();
+            actionFolder.add(mat, "roughness", 0, 1, 0.001).listen();
             controls2.color = mat.color.getStyle();
 
             actionFolder.addColor(controls2, "color").listen().onChange(function (e) {
-                mat.color.setStyle(e)
+                mat.color.setStyle(e);
             });
 
-            controls2.name = 'bathroom'
+            controls2.name = 'bathroom';
         }
         if (e == 'textures/w_c.jpg') {
             var mat = new THREE.MeshStandardMaterial(
@@ -943,24 +943,24 @@ function init() {
                     roughness: 0.4
                 });
 
-            var actionFolder = gui.addFolder('lava')
-            actionFolder.add(mat, "metalness", 0, 1, 0.001).listen()
-            actionFolder.add(mat, "roughness", 0, 1, 0.001).listen()
+            var actionFolder = gui.addFolder('lava');
+            actionFolder.add(mat, "metalness", 0, 1, 0.001).listen();
+            actionFolder.add(mat, "roughness", 0, 1, 0.001).listen();
             mat.color.getStyle();
             mat.emissive.getStyle();
             controls2.color = mat.color.getStyle();
             controls2.emissive = mat.emissive.getStyle();
             actionFolder.addColor(controls2, "color").listen().onChange(function (e) {
-                mat.color.setStyle(e)
+                mat.color.setStyle(e);
             });
             actionFolder.addColor(controls2, "emissive").listen().onChange(function (e) {
-                mat.emissive.setStyle(e)
+                mat.emissive.setStyle(e);
             });
 
 
-            controls2.name = 'lava'
+            controls2.name = 'lava';
         }
-        return mat
+        return mat;
     }
 
 
