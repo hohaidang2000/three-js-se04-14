@@ -61,6 +61,6 @@
 ### Hướng dẫn cài đặt
 - tải về
 - cài thêm phần mềm tạo server ảo
-- chạy index.html
+- chạy index.html ở thư mục exam
 
 
