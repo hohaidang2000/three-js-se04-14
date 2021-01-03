@@ -58,4 +58,9 @@
 - Canvas là 1 phần tử của HTML5 sẽ được sử dụng làm trình kết xuất đồ họa cho ThreeJS
 - hình ảnh Raster là các pixel( điểm ảnh) màu xếp cùng nhau tạo nên hình ảnh có màu sắc
 
+### Hướng dẫn cài đặt
+- tải về
+- cài thêm phần mềm tạo server ảo
+- chạy index.html
+
 
