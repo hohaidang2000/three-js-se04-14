@@ -1,3 +1,4 @@
+#VIE
 # Three-js-se04-14
 ### Giáo viên hướng dẫn
  - [Bùi Sỹ Nguyên](https://www.facebook.com/groups/3090155857777168/user/614170901/)
@@ -56,5 +57,10 @@
 - ngoài ra còn sử dụng đến Canvas và hình ảnh Raster 
 - Canvas là 1 phần tử của HTML5 sẽ được sử dụng làm trình kết xuất đồ họa cho ThreeJS
 - hình ảnh Raster là các pixel( điểm ảnh) màu xếp cùng nhau tạo nên hình ảnh có màu sắc
+
+### Hướng dẫn cài đặt
+- tải về
+- cài thêm phần mềm tạo server ảo
+- chạy index.html ở thư mục exam
 
 
